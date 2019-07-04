@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>z-index 理解层叠上下文</title>
+    <style>
+      * {
+          margin: 0;
+      }
+      html {
+          padding: 20px;
+          font: 12px/20px Arial, sans-serif;
+      }
+      .example1 div {
+          opacity: 0.7;
+          position: relative;
+      }
+      .example1 h1 {
+          font: inherit;
+          font-weight: bold;
+      }
+      #div1,
+      #div2 {
+          border: 1px dashed #696;
+          padding: 10px;
+          background-color: #cfc;
+      }
+      #div1 {
+          z-index: 5;
+          margin-bottom: 190px;
+      }
+      #div2 {
+          z-index: 2;
+      }
+      #div3 {
+          z-index: 4;
+          opacity: 1;
+          position: absolute;
+          top: 40px;
+          left: 180px;
+          width: 330px;
+          border: 1px dashed #900;
+          background-color: #fdd;
+          padding: 40px 20px 20px;
+      }
+      #div4,
+      #div5 {
+          border: 1px dashed #996;
+          background-color: #ffc;
+      }
+      #div4 {
+          z-index: 6;
+          margin-bottom: 15px;
+          padding: 25px 10px 5px;
+      }
+      #div5 {
+          z-index: 1;
+          margin-top: 15px;
+          padding: 5px 10px;
+      }
+      #div6 {
+          z-index: 3;
+          position: absolute;
+          top: 20px;
+          left: 180px;
+          width: 150px;
+          height: 125px;
+          border: 1px dashed #009;
+          padding-top: 125px;
+          background-color: #ddf;
+          text-align: center;
+      }
+      .example2, .example3, .example4 {
+        margin-top: 30px;
+      }
+      .example2 .box {
+        background-color: pink;
+        /* 使其成为一个层叠上下文 */
+        opacity: .5;
+      }
+      .example2 .box img {
+        position: relative;
+        z-index: -1;
+      }
+      .example3 {
+        background-color: pink;
+        /* 使其成为一个层叠上下文 */
+        display: flex;
+      }
+      .example3 > .box {
+        z-index: 1;
+      }
+      .example3 > .box img {
+        position: relative;
+        z-index: -1;
+      }
+      .example4 img:nth-child(3){
+        filter: blur(2px);
+        margin-left: -100px;
+      }
+      .example4 img:nth-child(4){
+        position: relative;
+        margin-left: -100px;
+      }
+      .example4 img:nth-child(5){
+        opacity: .9;
+        margin-left: -100px;
+      }
+      .example4 img:nth-child(6){
+        transform: rotate(15deg);
+        margin-left: -100px;
+      }
+      .example4 img:nth-child(7){
+        transform: rotate(15deg);
+        margin-left: -100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="example1">
+      栗子1<br/>
+      原因解释：1,2,3都是层叠上下文，所以需要找它们在父级html这个层叠上下文的顺序，刚好都有z-index，根据越大越上的原则，所以1最上，3其次，2最下<br/>
+      4,5,6也都是层叠上下文，所以需要找它们在父级，即3这个层叠上下文中比较，根据z-index越大越上
+      <br/>
+      <div id="div1">
+        <h1>Division Element #1</h1>
+        <code>position: relative;<br/>
+        z-index: 5;
+      </div>
+  
+      <div id="div2">
+        <h1>Division Element #2</h1>
+        <code>position: relative;<br/>
+        z-index: 2;
+      </div>
+  
+      <div id="div3">
+        
+        <div id="div4">
+          <h1>Division Element #4</h1>
+          <code>position: relative;<br/>
+          z-index: 6;
+        </div>
+  
+        <h1>Division Element #3</h1>
+        <code>position: absolute;<br/>
+        z-index: 4;
+  
+        <div id="div5">
+          <h1>Division Element #5</h1>
+          <code>position: relative;<br/>
+          z-index: 1;
+        </div>
+  
+  ​​​​      <div id="div6">
+          <h1>Division Element #6</h1>
+          <code>position: absolute;<br/>
+          z-index: 3;
+        </div>
+      </div>
+    </div>
+    <div class="example2">
+        栗子2 opacity<br />
+        原因解释：<br />当不为box设置opacity的时候，那么需要比较html这个层叠上下文，其中box为block层，而img为z-index:-1,所以img在box背景色下面<br />
+        当为box设置opacity的时候，现在box就成为一个层叠上下文，那么背景色为最低层，所以图片就会显示在上面了
+      <div class="box">
+        <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+      </div>
+    </div>
+    <br />
+    栗子3 flex<br />
+      原因解释：<br />当不为example3设置flex的时候，那么需要比较html这个层叠上下文，其中example3为block层，而img为z-index:-1,所以img在example3背景色下面<br />
+      当为example3设置flex的时候，现在example3就成为一个层叠上下文，那么背景色为最低层，所以图片就会显示在上面了
+    <div class="example3">
+      <div class="box">
+        <div>
+          <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+        </div>
+      </div>
+    </div>
+    <div class="example4">
+        <div>栗子4 后来居上(position: relative下z-index默认为0)<br />
+            原因解释：第一个img是第3层，其它层叠等级都为第2层，所以第一个在最下层，然后同一层级的根据后来居上原则，后来的会覆盖之前的
+            <br />
+            img {} 第3层，即inline-block层
+            <br />
+            img { filter: blur(2px); } 第2层，即z-index: auto层
+            <br />
+            img { position: relative; } 第2层，即z-index: auto层
+            <br />
+            img { opacity: .9; } 第2层，即z-index: auto层
+            <br />
+            img { transform: rotate(15deg); } 第2层，即z-index: auto层
+        </div>
+      <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+      <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+      <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+      <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+      <img src="https://p0.meituan.net/moviemachine/07e846797e2c886084d4377822036e1a1464615.jpg.webp@180w_180h_1e_1c_1l_80q|watermark=0">
+    </div>
+  </body>
+</html>

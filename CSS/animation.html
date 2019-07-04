@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .container {
+        transition-property: width;
+        transition-duration: 2s;
+        transition-timing-function: ease-in;
+        transition-delay: .5s;
+      }
+      .container {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+      }
+      .container:hover {
+        width: 300px;
+      }
+      .container2 {
+        width: 100px;
+        height: 100px;
+        background: pink;
+        position: relative;
+        animation: myfirst 5s;
+        animation-iteration-count: infinite;
+      }
+      @keyframes myfirst {
+        0%  {background:red; left:0px; top:0px;}
+        25% {background:yellow; left:200px; top:0px;}
+        50% {background:blue; left:200px; top:200px;}
+        75% {background:green; left:0px; top:200px;}
+        100% {background:red; left:0px; top:0px;}
+      }
+      p {
+          animation-name: slidein;
+          animation-duration: 3s;
+      }
+      @keyframes slidein {
+          from {
+            margin-left: 100%;
+            width: 300%;
+          }
+          to {
+            margin-left: 0%;
+            width: 100%;
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      transition 的栗子：鼠标移动上去，延迟0.5s后，产生持续2s的宽度从50px变长为300px的动画
+    </div>
+    <div class="container2">
+        animation 的栗子：循环播放的动画
+    </div>
+    <p>The Caterpillar and Alice looked at each other for some time in silence:
+        at last the Caterpillar took the hookah out of its mouth, and addressed
+        her in a languid, sleepy voice.</p>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BFC应用3-自适应两栏布局</title>
+    <style>
+      .container {
+        background-color: grey;
+      }
+      .left {
+        float: left;
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+      }
+      .right {
+        /* 建立BFC 阻止元素被浮动元素覆盖 从而实现两栏布局 */
+        overflow: hidden;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>

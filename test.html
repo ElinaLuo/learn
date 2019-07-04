@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js唤起数字键盘</title>
+    <style>
+    input {
+        -webkit-text-security: disc;
+    }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input class="inputText" type="text" placeholder="this a input"/> 
+        <div @click="clickFocusBtn" style="height: 100px; line-height: 100px">focus input</div>
+    </div>
+    
+    <script>
+        new Vue({ 
+            el: '#app',
+            data: {
+            },
+            methods: {
+                clickFocusBtn() {
+                    this.$el.querySelector('.inputText').focus()
+                }
+            },
+        });
+    </script>
+</body>
+</html>

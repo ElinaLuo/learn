@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .container {
+        margin-top: 30px;
+        display: flex;
+        width: 900px;
+        height: 100px;
+        background-color: #efefef;
+    }
+    .box {
+        padding: 10px;
+    }
+    .box1 {
+        flex-basis: 80px;
+        background-color:red;
+        flex-grow: 1;
+    }
+    .box2 {
+        flex-basis: 120px;
+        background-color:lightblue;
+        flex-grow: 2;
+    }
+    .box3 {
+        flex-basis: 100px;
+        background-color:yellow;
+        flex-grow: 3;
+    }
+    </style>
+</head>
+<body>
+    <div>拉伸计算公式如下：</div>
+    <div>剩余宽度=总宽度900 - (80 + 120 + 100) = 600</div>
+    <div>flex因子合 = 1 + 2 + 3 = 6</div>
+    <div>1份宽度=剩余宽度/因子合=600 / 6=100</div>
+    <div>box1宽度=初始宽度 + 1份宽度 * 拉伸因子=80 + 100 * 1=180</div>
+    <div>box2宽度=初始宽度 + 1份宽度 * 拉伸因子=120 + 100 * 2=320</div>
+    <div>box3宽度=初始宽度 + 1份宽度 * 拉伸因子=100 + 100 * 3=400</div>
+    <div class="container">
+        <div class="box box1">
+                flex-basis: 80px;<br>
+                flex-grow: 1;
+        </div>
+        <div class="box box2">
+                flex-basis: 120px;<br>
+                flex-grow: 2;
+        </div>
+        <div class="box box3">
+                flex-basis: 100px;<br>
+                flex-grow: 3;
+        </div>
+    </div>
+</body>
+</html>

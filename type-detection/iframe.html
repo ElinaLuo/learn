@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script>
+      const parentArr = window.parent.globalData.arrayData
+      console.log(parentArr)
+      console.log('parentArr instanceof Array', parentArr instanceof Array)
+      console.log('Array === window.parent.Array', Array === window.parent.Array)
+      console.log('Object.prototype.toString.call(parentArr) === [object Array]', Object.prototype.toString.call(parentArr) === '[object Array]')
+    </script>
+  </body>
+</html>

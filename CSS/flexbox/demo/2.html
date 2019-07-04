@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #efefef;
+        height: 100vh;
+    }
+    main {
+        display: flex;
+        flex: 1;
+        background-color: #ccc;
+        flex-wrap: wrap;
+    }
+    .header, .footer {
+        flex-basis: 100%;
+        height: 50px;
+        background-color: yellowgreen;
+    }
+    .center {
+        flex: 1 0 auto;
+    }
+    .left, .right{
+        flex: 0 0 100px;
+    }
+    .left{
+        background-color: #509839;
+    }
+    .center {
+        background-color: #fff;
+    }
+    .right{
+        background-color: #823384;
+    }
+    @media screen and (max-width: 600px) {
+        main {
+            flex-direction: column;
+        }
+    }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <header>
+            <b class="header">头部</b>
+        </header>
+        <main>
+            <article class="left">左侧</article>
+            <article class="center">内容体</article>
+            <article class="right">右侧</article>
+        </main>
+        <footer>
+            <b class="header">底部</b>
+        </footer>
+    </section>
+</body>
+</html>

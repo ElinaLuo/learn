@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script>
+      window.globalData = {
+        arrayData: [1, 2, 3]
+      }  
+      console.log("parent arrayData installof Array: " + 
+          (window.globalData.arrayData instanceof Array));
+    </script>
+    <iframe src="./iframe.html"></iframe>
+  </body>
+</html>

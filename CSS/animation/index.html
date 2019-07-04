@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .box1 {
+        padding: 0;
+        margin: auto;
+        width: 100px;
+        height: 100px;
+        background-color:rgb(190, 206, 235); 
+        animation-name: resize;
+        animation-duration: 1.5s;
+        animation-iteration-count: 3;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+    @keyframes resize {
+        0% {
+            padding: 0;
+        }
+        50% {
+            padding: 0 20px;
+            background-color:rgba(190, 206, 235, 0.8); 
+        }
+        100% {
+            padding: 0 100px;
+            background-color:rgba(190, 206, 235, 0.4);
+        }
+    }
+    .box2 img {
+        width: 100px;
+        height: auto;
+        animation-name: glow;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+    @keyframes glow {
+        0% {
+            box-shadow: 0 0 12px rgba(72, 106, 170, 0.5);
+        }
+        100% {
+            box-shadow: 0 0 30px rgba(72, 106, 170, 1);
+        }
+    }
+    @keyframes fadeInOut {
+        0% {
+            opacity: 1;
+        }
+        25% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0;    
+        }
+        75% {
+            opacity: 1;
+        }
+    }
+    .box3 {
+        position: relative;
+    }
+    .img2 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        animation-name: fadeInOut;
+        animation-duration: 12s;
+        animation-iteration-count: infinite;
+    }
+    .img {
+        width: 100px;
+        height: auto;
+    }
+    .box4 {
+        width: 100px;
+        overflow: hidden;
+    }
+    .speed-box {
+        white-space: nowrap;
+        animation-name: speedOut;
+        animation-duration: 6s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+    @keyframes speedOut {
+        0% {
+            margin-left: 0;
+        }
+        25% {
+            margin-left: -100px;
+        }
+        50% {
+            margin-left: -200px;
+        }
+        75% {
+            margin-left: -300px;
+        }
+        100% {
+            margin-left: 0;
+        }
+    }
+    </style>
+</head>
+<body>
+    <h1>1.animations水平弹性缩放变色动画</h1>
+    <div class="box1"></div>
+    <h1>2.animations下的外发光动画demo</h1>
+    <div class="box2">
+        <img src="./img/pic.jpeg">
+    </div>
+    <h1>图片淡入淡出</h1>
+    <div class="box3">
+        <img class="img img1" src="./img/pic.jpeg" />
+        <img class="img img2" src="./img/pic2.jpeg" />
+    </div>
+    <h1>图片自动切换</h1>
+    <div class="box4">
+        <div class="speed-box">
+            <img class="img img3" src="./img/pic.jpeg" />
+            <img class="img img4" src="./img/pic2.jpeg" />
+            <img class="img img3" src="./img/pic.jpeg" />
+            <img class="img img4" src="./img/pic2.jpeg" />
+        </div>
+    </div>
+</body>
+</html>

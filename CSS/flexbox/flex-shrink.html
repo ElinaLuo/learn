@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .container {
+        margin-top: 30px;
+        display: flex;
+        width: 500px;
+        height: 100px;
+        background-color: #efefef;
+    }
+    .box1 {
+        flex-basis: 100px;
+        background-color:red;
+        flex-shrink: 1;
+    }
+    .box2 {
+        flex-basis: 200px;
+        background-color:lightblue;
+        flex-shrink: 2;
+    }
+    .box3 {
+        flex-basis: 300px;
+        background-color:yellow;
+        flex-shrink: 3;
+    }
+    </style>
+</head>
+<body>
+    <div>缩放计算公式如下：</div>
+    <div>总权重=100*1(flex-shrink) + 200*2(flex-shrink) + 300*3(flex-shrink)=1400</div>
+    <div>box宽度=初始宽度 - 初始宽度 * 缩放因子/总权重 * 需要收缩的距离</div>
+    <div>box1宽度=100 - 100 * 1/1400 * (100+200+300 - 500)=92.86</div>
+    <div>box2宽度=200 - 200 * 2/1400 * (100+200+300 - 500)=171.42</div>
+    <div>box3宽度=300 - 300 * 3/1400 * (100+200+300 - 500)=235.72</div>
+    <div class="container">
+        <div class="box box1">
+                flex-basis: 100px;<br>
+                flex-shrink: 1;<br>
+                实际宽度92.86
+        </div>
+        <div class="box box2">
+                flex-basis: 200px;<br>
+                flex-shrink: 2;<br>
+                实际宽度171.42
+        </div>
+        <div class="box box3">
+                flex-basis: 300px;<br>
+                flex-shrink: 3;<br>
+                实际宽度235.72
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSS3 transform初体验之demo1</title>
+    <style type="text/css">
+    body{
+        background-color: #E9E9E9; 
+        color: #333333;
+        font-size: 16px;
+    }
+    .box, .box2{
+        /* width: 500px;  */
+        margin: 100px; 
+        font-size: 0.75em;
+        position: relative;
+    }
+    .title{
+        font-size: 1.5em;
+    }
+    .pic{
+        position: relative;
+        display: inline-block;
+        padding: 10px;
+        background-color: #efefef;
+        transition: all 1s;
+    }
+    .pic img{
+        display: block; 
+        width: 128px; 
+        height: auto; 
+        margin-bottom: 10px;
+        z-index: 1;
+    }
+    .pic:hover {
+        border-color: yellowgreen;
+        z-index: 2;
+        transform: rotate(0deg) scale(1.5);
+        box-shadow: 15px 15px 20px rgba(50, 50, 50, 0.4);
+    }
+    .pic1 {
+        transform: rotate(-30deg);
+    }
+    .pic2 {
+        transform: rotate(180deg);
+    }
+    .pic3 {
+        transform: rotate(50deg);
+    }
+    .pic4 {
+        transform: rotate(60deg);
+    }
+    .img {
+        width: 128px; 
+        height: auto;
+    }
+    .img2 {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .box .img2 {
+        transition: all 2s ease-in-out;
+        opacity: 1;
+    }
+    .box .img2:hover {
+        opacity: 0;
+    }
+    .box2 {
+        display: inline-block;
+    }
+    .box2 .img2 {
+        transform: scale(0, 0);
+        transition: all 1s;
+    }
+    .box2 .img1 {
+        opacity: 1;
+        transform: scale(1, 1);
+        transition: all 2s;
+    }
+    .box2 .img2 {
+        opacity: 0;
+        transform: scale(0, 0);
+        transition: all 2s;
+        transform-origin: center;
+    }
+    .box2:hover .img2 {
+        transform: scale(1, 1);
+        opacity: 1;
+        transform-origin: top right;
+    }
+    .box2:hover .img1 {
+        opacity: 0;
+        transform: scale(0, 0);
+        transform-origin: left bottom;
+    }
+    .rotate1 {
+        opacity: 0;
+        transform: scale(1, 0);
+        transition: all 2s ease-in-out;
+    }
+    .rotate2 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 1;
+        transform: scale(1, 1);
+        transition: all 2s ease-in-out;
+    }
+    .box2:hover .rotate2 {
+        transform: scale(0, 0) rotate(360deg);
+        opacity: 0;
+    }
+    .box2:hover .rotate1 {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">CSS3旋转拉近 + 盒投影 + 鼠标悬停效果</h1>
+    <div class="box">
+        <div class="content">
+            <div class="pic pic1">
+                <img src="./img/pic.jpeg" />
+                我的头像
+            </div>
+            <div class="pic pic2">
+                <img src="./img/pic.jpeg" />
+                我的头像
+            </div>
+            <div class="pic pic3">
+                <img src="./img/pic.jpeg" />
+                我的头像
+            </div>
+            <div class="pic pic4">
+                <img src="./img/pic.jpeg" />
+                我的头像
+            </div>
+        </div>
+    </div>
+    <h1>CSS3 hover后图片渐入渐出</h1>
+    <div class="box">
+        <img class="img img1" src="./img/pic.jpeg" />
+        <img class="img img2" src="./img/pic2.jpeg" />
+    </div>
+    <h1>图片hover后自动fade效果</h1>
+    <div class="box2">
+        <img class="img img1" src="./img/pic.jpeg" />
+        <img class="img img2" src="./img/pic2.jpeg" />
+    </div>
+    <div class="box2">
+        <img class="img rotate1" src="./img/pic.jpeg" />
+        <img class="img rotate2" src="./img/pic2.jpeg" />
+    </div>
+    </body>
+</html>

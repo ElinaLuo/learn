@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BFC应用1-阻止margin重叠</title>
+    <style>
+      .container {
+        background-color: grey;
+      }
+      .left {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        margin-bottom: 10px;
+        /* 建立BFC 阻止margin重叠 */
+        display: inline-block;
+      }
+      .right {
+        margin-top: 10px;
+        width: 100px;
+        height: 100px;
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left"></div>
+      <div class="right">
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flex默认样式</title>
+    <style>
+    .container {
+        display: flex;
+        height: 200px;
+        background-color: #efefef;
+        /* 以下为默认属性 */
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .flex-item {
+        background-color: pink;
+        border: 1px solid black;
+        width: 100px;
+        /* 以下为默认属性 */
+        flex-basis: auto;
+        flex-grow: 0;
+        flex-shrink: 1;
+        justify-content: stretch;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="flex-item"></div>
+        <div class="flex-item"></div>
+        <div class="flex-item"></div>
+    </div>
+</body>
+</html>

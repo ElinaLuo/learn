@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    nav ul {
+        display: flex;
+        margin: 0 -10px;
+        list-style: none;
+        background-color: #efefef;
+    }
+    nav li {
+        margin: 0 10px;
+    }
+    nav a {
+        text-decoration: none;
+        color: #000;
+        border: 2px solid rgb(96, 139, 168);
+        border-radius: 5px;
+        background-color: rgba(96, 139, 168, .2);
+        padding: 10px;
+        display: block;
+    }
+    .push-right {
+        margin-left: auto;
+    }
+    .container {
+        display: flex;
+        background-color: lightyellow;
+    }
+    .container1 {
+        justify-content: flex-end;
+        flex-direction: column;
+        height: 300px;
+    }
+    .box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 75px;
+        background-color: springgreen;
+        border: 1px solid #333;
+    }
+    .box5 {
+        margin: auto;
+        align-self: flex-end;
+    }
+    .containe3 > div {
+        margin: auto;
+    }
+    .containe4 > div {
+        margin: auto;
+    }
+    .containe4 > div:first-child {
+        margin-left: 0;
+    }
+    .containe4 > div:last-child {
+        margin-right: 0;
+    }
+    </style>
+</head>
+<body>
+    <div>利用margin创建gap</div>
+    <nav>
+        <ul>
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+            <li><a href="#">Page 3 is longer</a></li>
+            <li class="push-right"><a href="#">Page 4</a></li>
+        </ul>
+    </nav>
+    <br>
+    <br>
+    <div>通过margin改变box5的放置位置</div>
+    <div class="container container1">
+        <div class="box box1">1</div>
+        <div class="box box2">2</div>
+        <div class="box box3">3</div>
+        <div class="box box4">4</div>
+        <div class="box box5">5</div>
+    </div>
+    <br>
+    <br>
+    <div>利用margin实现space-around</div>
+    <div class="container containe3">
+        <div class="box box1">1</div>
+        <div class="box box2">2</div>
+        <div class="box box3">3</div>
+        <div class="box box4">4</div>
+        <div class="box box5">5</div>
+    </div>
+    <br>
+    <br>
+    <div>利用margin实现space-between</div>
+    <div class="container containe4">
+        <div class="box box1">1</div>
+        <div class="box box2">2</div>
+        <div class="box box3">3</div>
+        <div class="box box4">4</div>
+        <div class="box box5">5</div>
+    </div>
+</body>
+</html>

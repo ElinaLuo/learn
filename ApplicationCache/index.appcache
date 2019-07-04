@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# v1 2019-06-17
+# This is another comment
+index.html
+index.js
+style.css
+image.png
+favicon.ico
+
+# Use from network if available
+NETWORK:
+network.html

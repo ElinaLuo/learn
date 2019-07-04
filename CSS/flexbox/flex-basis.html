@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .container {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .flex {
+        background: #6AB6D8;
+        padding: 10px;
+        margin-bottom: 50px;
+        border: 3px solid #2E86BB;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        position: relative;
+        flex-basis: 10%;
+        flex-grow: 1;
+    }
+    .flex1 {
+        flex-basis: auto;
+        flex-grow: initial;
+    }
+    </style>
+</head>
+<body>
+    <div>虽然三个元素flex-basis：10%，但是flex-grow：1，所以表现是3个元素会撑满父容器</div>
+    <ul class="container">
+        <li class="flex flex1">1: flex-basis：auto</li>
+        <li class="flex flex2">2: flex-basis：10%</li>
+        <li class="flex flex3">3: flex-basis：10%</li>
+    </ul>
+        
+    <ul class="container">
+        <li class="flex flex6">6: flex-basis：10%</li>
+    </ul>
+</body>
+</html>

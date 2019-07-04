@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BFC应用1-清除浮动</title>
+    <style>
+      .container {
+        background-color: grey;
+        /* 建立BFC 清除浮动 */
+        overflow: hidden;
+      }
+      .left {
+        float: left;
+        width: 100px;
+        height: 200px;
+        background-color: pink;
+      }
+      .right {
+        width: 200px;
+        height: 100px;
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>

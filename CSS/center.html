@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      * {
+        margin: 0;
+      }
+      .container1 {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        border: 1px solid #ddd;
+      }
+      /* 通过 absolute + transform 实现水平垂直居中 */
+      .center-abs-trans {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        background-color: pink;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .container2 {
+        display: flex;
+        width: 300px;
+        height: 300px;
+        border: 1px solid #ddd;
+        align-items: center;
+        justify-content: center;
+      }
+      .center-flex {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container1">
+      <div class="center-abs-trans">
+        通过 absolute + transform 实现水平垂直居中
+      </div>
+    </div>
+    <div class="container2">
+        <div class="center-flex">
+          通过 flex + align-item + justify-content 实现水平垂直居中
+        </div>
+      </div>
+  </body>
+</html>

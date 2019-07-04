@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .box {
+        display: flex;
+        flex-direction: row;
+        background-color: #efefef;
+    }
+    .row-reverse {
+        flex-direction: row-reverse;
+    }
+    .row {
+        flex-direction: row;
+    }
+    .box > * {
+        border: 2px solid rgb(96, 139, 168);
+        border-radius: 5px;
+        background-color: rgba(96, 139, 168, .2);
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .box :nth-child(1) { order: 2; }
+    .box :nth-child(2) { order: 3; }
+    .box :nth-child(3) { order: 1; }
+    .box :nth-child(4) { order: 3; }
+    .box :nth-child(5) { order: 1; }
+    .wrap {
+        flex-wrap: wrap;
+    }
+    .active {
+        order: -1;
+        flex: 1 0 100%;
+    }
+    main {
+        display: block;
+        box-sizing: border-box;
+        width: 90%;
+        margin: 1em auto;
+        padding: 1em 2em;
+        color: #000;
+        background-color: rgba(204, 204, 204, .7);
+        border: .07em solid rgba(0, 0, 0, .5);
+        border-radius: .5em;
+    }
+
+    button {
+        text-align: center;
+        font-size: 100%;
+        border-radius: 1em;
+        border: .1em solid #333;
+        padding: 1em;
+    }
+
+    button strong {
+        display: block;
+        box-sizing: border-box;
+        line-height: 1.35;
+        width: 1.5em;
+        height: 1.5em;
+        text-align: center;
+        font-size: 200%;
+        background-color: #000;
+        color: #fff;
+        border-radius: 50%;
+        margin: 0 auto;
+        border: .1em solid #fff;
+    }
+
+    button:hover,
+    button:focus {
+        background-color: #060;
+        box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+        color: #fff;
+        outline: none;
+    }
+
+    div + div {
+        margin-top: 1em;
+    }
+
+    main > div {
+        display: inline-flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    main > div button {
+        width: 23%;
+    }
+    div.shuffled button:nth-child(1) {
+        order: 2;
+    }
+
+    div.shuffled button:nth-child(2) {
+        order: 4;
+    }
+
+    div.shuffled button:nth-child(3) {
+        order: 1;
+    }
+
+    div.shuffled button:nth-child(4) {
+        order: 3;
+    }
+
+    div.shuffled button:hover,
+    div.shuffled button:focus {
+        background-color: #600;
+    }
+    </style>
+</head>
+<body>
+    <div>order越小越靠前，位置参照flex-direction</div>
+    <div>1.flex-direction: row</div>
+    <div class="box row">
+        <div><a href="#">1</a></div>
+        <div><a href="#">2</a></div>
+        <div><a href="#">3</a></div>
+        <div><a href="#">4</a></div>
+        <div><a href="#">5</a></div>
+    </div>
+    <div>2.flex-direction: row-reverse</div>
+    <div class="box row-reverse">
+        <div><a href="#">1</a></div>
+        <div><a href="#">2</a></div>
+        <div><a href="#">3</a></div>
+        <div><a href="#">4</a></div>
+        <div><a href="#">5</a></div>
+    </div>
+    <div>3.order: -1</div>
+    <div class="box wrap">
+        <div><a href="#">1</a></div>
+        <div><a href="#">2</a></div>
+        <div class="active"><a href="#">3</a></div>
+        <div><a href="#">4</a></div>
+        <div><a href="#">5</a></div>
+    </div>
+    <div>4.order与css display order，尝试点击，然后用tab切换看效果</div>
+    <main>
+        <h1>CSS Flexbox</h1>
+        <h2>No Ordering Applied</h2>
+        <div>
+            <button>
+            <strong>1</strong>
+            <br> This appears first in source order.
+            </button>
+            <button>
+            <strong>2</strong>
+            <br> This appears second in source order.
+            </button>
+            <button>
+            <strong>3</strong>
+            <br> This appears third in source order.
+            </button>
+            <button>
+            <strong>4</strong>
+            <br> This appears fourth in source order.
+            </button>
+        </div>
+        <h2>Re-Ordered</h2>
+        <div class="shuffled">
+            <button>
+            <strong>1</strong>
+            <br> This appears first in source order.
+            </button>
+            <button>
+            <strong>2</strong>
+            <br> This appears second in source order.
+            </button>
+            <button>
+            <strong>3</strong>
+            <br> This appears third in source order.
+            </button>
+            <button>
+            <strong>4</strong>
+            <br> This appears fourth in source order.
+            </button>
+        </div>
+        <p>
+            This example used in the post <a href="http://adrianroselli.com/2015/10/html-source-order-vs-css-display-order.html">HTML Source Order vs CSS Display Order</a>.
+        </p>
+    </main>
+</body>
+</html>

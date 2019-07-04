@@ -1,0 +1,10 @@
+{
+	"scripts": {
+		"build": "gulp webpack"
+	},
+	"dist": "./dist",
+	"output": "./template",
+	"urlPrefix": "/",
+	"env": "dev",
+	"yarn": true
+}
