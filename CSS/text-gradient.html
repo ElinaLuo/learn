@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文字渐变</title>
+    <style>
+    .text {
+        font-family: '微软雅黑';
+        font-size: 80px;
+        background: -webkit-linear-gradient(#e66465, #9198e5);
+        -webkit-background-clip: text;
+        /* -webkit-text-fill-color: transparent; */
+        color: transparent;
+    }
+    .text-gradient {  
+        display: inline-block;
+        font-family: '微软雅黑';
+        font-size: 80px;
+        position: relative;
+        color: #9198e5;
+    }  
+    
+    /* .text-gradient[data-text]::before {  
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        z-index: 2;
+        color: green;
+        -webkit-mask-image: -webkit-gradient(linear,0 0,0 bottom,from(black),to(transparent));
+    } */
+    .text-gradient[data-text]::after {  
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        z-index: 2;
+        color: #e66465;
+        -webkit-mask-image: -webkit-gradient(linear,0 0,0 bottom,from(black),to(transparent));
+    } 
+   
+    </style>
+</head>
+<body>
+    <h2 class="text">background-clip实现渐变</h2>
+    <h2 class="text-gradient" data-text="mask-image实现渐变">mask-image实现渐变</h2>
+</body>
+</html>
