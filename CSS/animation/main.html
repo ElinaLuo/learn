@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动画</title>
+    <style>
+        body {
+            /* text-align: center; */
+        }
+        .anmated {
+            font-size: 30px;
+            background: linear-gradient(92deg, #f35626 0%,#feab3a 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+            animation-duration: 1s;
+            background-color: pink;
+            animation-iteration-count: infinite;
+        }
+        .slideInUp {
+            animation-name: slideInUp;
+        }
+        .slideInDown {
+            animation-name: slideInDown;
+        }
+        .slideInLeft {
+            animation-name: slideInLeft
+        }
+        .slideInRight {
+            animation-name: slideInRight
+        }
+        .bounce {
+            animation-name: bounce;
+        }
+        .flash {
+            animation-name: flash;
+        }
+        .pulse {
+            animation-name: pulse;
+        }
+        .rubberBand {
+            animation-name: rubberBand;
+        }
+        .shake {
+            animation-name: shake;
+        }
+        @keyframes slideInUp {
+            from {
+                transform: translate3d(0, 100%, 0);
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes slideInDown {
+            from {
+                transform: translate3d(0, -100%, 0);
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes slideInLeft {
+            from {
+                transform: translate3d(-100%, 0, 0);
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translate3d(100%, 0, 0);
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes bounce {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+            25% {
+                transform: translate3d(0, -50%, 0);
+            }
+            50% {
+                transform: translate3d(0, 0, 0);
+            }
+            75% {
+                transform: translate3d(0, -30%, 0);
+            }
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes flash {
+            from,
+            50%,
+            to {
+                opacity: 1;
+            }
+            25%,
+            75% {
+                opacity: 0;
+            }
+        }
+        @keyframes pulse {
+            from {
+                transform: scale3d(1, 1, 1);
+            }
+            50% {
+                transform: scale3d(1.05, 1.05, 1.05);
+            }
+            to {
+                transform: scale3d(1, 1, 1);
+            }
+        }
+        @keyframes rubberBand {
+            from {
+                transform: scale3d(1, 1, 1);
+            }
+            30% {
+                transform: scale3d(1.25, 0.75, 1.05);
+            }
+            40% {
+                transform: scale3d(0.75, 1.25, 1.05);
+            }
+            50% {
+                transform: scale3d(1.15, 0.85, 1.05);
+            }
+            65% {
+                transform: scale3d(0.95, 1.05, 1);
+            }
+            75% {
+                transform: scale3d(1.05, 0.95, 1);
+            }
+            to {
+                transform: scale3d(1, 1, 1);
+            }
+        }
+        @keyframes shake {
+            from,
+            to {
+               transform: translate3d(0, 0, 0); 
+            }
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+               transform: translate3d(-10px, 0, 0); 
+            }
+            20%,
+            40%,
+            60%,
+            80% {
+               transform: translate3d(10px, 0, 0); 
+            }
+        }
+        .bird-container {
+            display: inline-block;
+            animation-name: flycontainer;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+        }
+        .bird {
+            background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/174479/bird-cells.svg);
+            width: 88px;
+            height: 125px;
+            background-size: auto 100%;
+            background-position: left;
+            background-repeat: no-repeat;
+            animation-name: fly-cycle;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: steps(10);
+        }
+        @keyframes fly-cycle {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: -900px 0;
+            }
+        }
+        @keyframes flycontainer {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+            100% {
+                transform: translate3d(100vw, 0, 0);
+            }
+        }
+        .block-container {
+            width: 100px;
+            height: 100px;
+        }
+        .block-container:hover {
+            overflow: hidden;
+        }
+        .block {
+            height: 100%;
+            display: flex;
+            animation-name: block-scroll;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+        .steps-start {
+            animation-timing-function: steps(4, start);
+        }
+        .steps-end {
+            animation-timing-function: steps(4, end);
+        }
+        .block-item {
+            width: 100px;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        .block-item:nth-child(1) {
+            background-color: pink;
+        }
+        .block-item:nth-child(2) {
+            background-color: yellow;
+        }
+        .block-item:nth-child(3) {
+            background-color: blue;
+        }
+        .block-item:nth-child(4) {
+            background-color: green;
+        }
+        .block-item:nth-child(5) {
+            background-color: gray;
+        }
+        @keyframes block-scroll {
+            from {
+                transform: translate3d(0, 0, 0);
+            }
+            to {
+                transform: translate3d(-400px, 0, 0);
+            }
+        }
+        img {
+            width: 500px;
+            height: auto;
+        }
+        .main {
+            margin-top: 50px;
+        }
+        .dragon {
+            width: 200px;
+            height: 140px;
+            margin: 0 auto;
+            position: relative;
+            animation: zoomIn .5s cubic-bezier(0.47, 0, 0.75, 0.72) alternate infinite;
+        }
+        .dragon .body {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 180px;
+            height: 128px;
+            background: url(./img/body.png) no-repeat center center;
+            background-size: contain;
+            z-index: 2;
+        }
+        .dragon .horn-left {
+            position: absolute;
+            top: -17px;
+            left: 32px;
+            width: 31px;
+            height: 31px;
+            background: url(./img/horn-left.png) no-repeat;
+            background-size: contain;
+            animation: swingLeft .5s cubic-bezier(0.47, 0, 0.75, 0.72) alternate infinite;
+            z-index: 1;
+        }
+        .dragon .horn-right {
+            position: absolute;
+            top: -16px;
+            left: 110px;
+            width: 34px;
+            height: 31px;
+            background: url(./img/horn-right.png) no-repeat;
+            background-size: contain;
+            animation: swingRight .5s cubic-bezier(0.47, 0, 0.75, 0.72) alternate infinite;
+            z-index: 1;
+        }
+        .dragon .eye {
+            position: absolute;
+            top: 39px;
+            width: 11px;
+            height: 11px;
+            background: url(./img/eye.png) no-repeat;
+            background-size: contain;
+            z-index: 3;
+        }
+        .dragon .eye.left {
+            left: 49px;
+        }
+        .dragon .eye.right {
+            left: 118px;
+            transform: rotate(180deg);
+        }
+        .dragon .blush {
+            position: absolute;
+            top: 46px;
+            width: 15px;
+            height: 9px;
+            background: url(./img/blush.png) no-repeat;
+            background-size: 100% 100%;
+            animation: blush .5s ease alternate infinite;
+            z-index: 3;
+        }
+        .dragon .blush.left {
+            left: 43px;
+        }
+        .dragon .blush.right {
+            left: 120px;
+        }
+        .dragon .mouth {
+            position: absolute;
+            top: 52px;
+            left: 49px;
+            width: 78px;
+            height: 56px;
+            background: url(./img/mouth.png) no-repeat;
+            background-size: 100%;
+            z-index: 4;
+            transform-origin: top;
+            animation: mouth .5s cubic-bezier(0.47, 0, 0.75, 0.72) alternate infinite;
+        }
+        .dragon .tail-sting {
+            position: absolute;
+            top: 67px;
+            left: 139px;
+            width: 40px;
+            height: 38px;
+            background: url(./img/tail-sting.png) no-repeat;
+            background-size: contain;
+            animation: tail-sting .5s cubic-bezier(0.47, 0, 0.75, 0.72) alternate infinite;
+        }
+        .fire-wrapper {
+            position: absolute;
+            width: 40px;
+            top: 60px;
+            left: 88px;
+        }
+        .fire {
+            padding-bottom: 135%;
+            width: 100%;
+            height: 100%;
+            background: url(./img/fire.png) no-repeat;
+            background-size: contain;
+        }
+        .shadow {
+            position: absolute;
+            bottom: 0;
+            width: 110px;
+            height: 30px;
+            border-radius: 100%;
+            background-color: #ccc;
+            left: 45px;
+        }
+        @keyframes zoomIn {
+            to {
+                transform: scale(1.16, 1.16);
+            }
+        }
+        @keyframes swingLeft {
+            from {
+                transform: rotate(-5deg);
+            }
+            to {
+                transform: rotate(10deg);
+            }
+        }
+        @keyframes swingRight {
+            from {
+                transform: rotate(5deg);
+            }
+            to {
+                transform: rotate(-10deg);
+            }
+        }
+        @keyframes blush {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes tail-sting {
+            from {
+                transform: scaleY(0.9);
+            }
+            to {
+                transform: scaleY(1.06);
+            }
+        }
+        @keyframes mouth {
+            from {
+                /* 半径 at 位置 */
+                clip-path: ellipse(20% 0 at 50% 0%);
+            }
+            to {
+                clip-path: ellipse(100% 100% at 50% 0%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>slideInUp</h1>
+    <div class="slideInUp anmated">Animate.css</div>
+    <h1>slideInDown</h1>
+    <div class="slideInDown anmated">Animate.css</div>
+    <h1>slideInLeft</h1>
+    <div class="slideInLeft anmated">Animate.css</div>
+    <h1>slideInRight</h1>
+    <div class="slideInRight anmated">Animate.css</div>
+    <h1>bounce</h1>
+    <div class="bounce anmated">Animate.css</div>
+    <h1>flash</h1>
+    <div class="flash anmated">Animate.css</div>
+    <h1>pulse</h1>
+    <div class="pulse anmated">Animate.css</div>
+    <h1>rubberBand</h1>
+    <div class="rubberBand anmated">Animate.css</div>
+    <h1>shake</h1>
+    <div class="shake anmated">Animate.css</div>
+    <h1>animated birds</h1>
+    <div class="bird-container">
+        <div class="bird"></div>
+    </div>
+    <h1>animation step 的 start 和 end 区别</h1>
+    <img src="http://p0.meituan.net/education/e3715f31ba8500ccd283dcdd342e2358135959.png" alt="">
+    <h2>栗子1：animation-timing-function: steps(4, start);（hover试试效果）</h2>
+    <h3>解释：start 会忽略 first step</h3>
+    <div class="block-container">
+        <div class="block steps-start">
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+        </div>
+    </div>
+    <h2>栗子2：animation-timing-function: steps(4, end);（hover试试效果）</h2>
+    <h3>解释：end 会忽略 last step</h3>
+    <div class="block-container">
+        <div class="block steps-end">
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+            <div class="block-item"></div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="dragon">
+            <div class="body"></div>
+            <div class="horn-left"></div>
+            <div class="horn-right"></div>
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="blush left"></div>
+            <div class="blush right"></div>
+            <div class="mouth"></div>
+            <div class="tail-sting"></div>
+            <div class="shadow"></div>
+        </div>
+        <div class="fire-wrapper">
+            <div class="fire"></div>
+        </div>
+        <div class="progress">
+            <div class="outer">
+                <div class="inner"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

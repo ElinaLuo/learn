@@ -16,7 +16,11 @@ const _fetch = (function (fetch) {
 
 var url = 'http://m.51ping.com/beautytry/zerohelp/trialturn?channel=16'
 const p = _fetch(url, {
-  timeout: 1000
+  timeout: 1000,
+  headers: {
+      Cookie: 'ci=10;',// 浏览器紧张修改
+      'User-Agent': 'MM12345678'// safari可以，chrome不行
+  }
 })
 
 p.then(res => {
