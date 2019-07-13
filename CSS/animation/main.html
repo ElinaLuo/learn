@@ -143,20 +143,20 @@
         @keyframes shake {
             from,
             to {
-               transform: translate3d(0, 0, 0); 
+               transform: translate3d(0, 0, 0);
             }
             10%,
             30%,
             50%,
             70%,
             90% {
-               transform: translate3d(-10px, 0, 0); 
+               transform: translate3d(-10px, 0, 0);
             }
             20%,
             40%,
             60%,
             80% {
-               transform: translate3d(10px, 0, 0); 
+               transform: translate3d(10px, 0, 0);
             }
         }
         .bird-container {
@@ -346,8 +346,10 @@
         .fire-wrapper {
             position: absolute;
             width: 40px;
-            top: 60px;
-            left: 88px;
+            top: 47px;
+            left: 68px;
+            z-index: 4;
+            animation: fireUp 1s ease-out infinite;
         }
         .fire {
             padding-bottom: 135%;
@@ -411,6 +413,43 @@
                 clip-path: ellipse(100% 100% at 50% 0%);
             }
         }
+        @keyframes fireUp {
+            from,
+            50% {
+                transform: scale(0, 0) translate(0, 0);
+                opacity: 0;
+            }
+            75% {
+                transform: scale(.9, .9) translate(0, -50px);
+                opacity: .8;
+            }
+            to {
+                transform: scale(.7, .7) translate(0, -150px);
+                opacity: 0;
+            }
+        }
+        .progress {
+            width: 200px;
+            height: 15px;
+            background-color: #efefef;
+            border-radius: 20px;
+            margin: 0 auto;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+        .progress .inner {
+            height: 100%;
+            animation: progress 2s linear infinite;
+            background-color: #feab3a;
+        }
+        @keyframes progress {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -439,7 +478,7 @@
     <h1>animation step 的 start 和 end 区别</h1>
     <img src="http://p0.meituan.net/education/e3715f31ba8500ccd283dcdd342e2358135959.png" alt="">
     <h2>栗子1：animation-timing-function: steps(4, start);（hover试试效果）</h2>
-    <h3>解释：start 会忽略 first step</h3>
+    <h3>解释：start 会忽略第一帧然后开始</h3>
     <div class="block-container">
         <div class="block steps-start">
             <div class="block-item"></div>
@@ -450,7 +489,7 @@
         </div>
     </div>
     <h2>栗子2：animation-timing-function: steps(4, end);（hover试试效果）</h2>
-    <h3>解释：end 会忽略 last step</h3>
+    <h3>解释：end 不会播放最后一帧</h3>
     <div class="block-container">
         <div class="block steps-end">
             <div class="block-item"></div>
@@ -472,14 +511,12 @@
             <div class="mouth"></div>
             <div class="tail-sting"></div>
             <div class="shadow"></div>
-        </div>
-        <div class="fire-wrapper">
-            <div class="fire"></div>
+            <div class="fire-wrapper">
+                <div class="fire"></div>
+            </div>
         </div>
         <div class="progress">
-            <div class="outer">
-                <div class="inner"></div>
-            </div>
+            <div class="inner"></div>
         </div>
     </div>
 </body>
