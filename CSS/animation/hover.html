@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 300px;
+            height: 200px;
+            background-color: #efefef;
+            position: relative;
+            margin: 200px;
+            overflow: hidden;
+            display: flex;
+        }
+        .container:hover::before {
+            transform: rotate(-33.7deg) translate(0, 0);
+        }
+        .container:hover::after {
+            transform: rotate(-33.7deg) translate(0, 0);
+        }
+        .container::before, .container::after {
+            transition: all .5s;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -91px;
+            left: -14px;
+            width: 400px;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.1);
+            transform: rotate(-33.69deg) translate(0, -166px);
+            transform-origin: bottom left;
+        }
+        .container::after {
+            content: '';
+            position: absolute;
+            bottom: -37px;
+            left: 85px;
+            width: 400px;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.1);
+            transform: rotate(-33.69deg) translate(0, 166px);
+            transform-origin: bottom right;
+        }
+        .content {
+            width: 100%;
+            height: 100px;
+            background-color: yellow;
+            margin: auto;
+            transition: all .5s .5s;
+            transform: scale(0) rotate(-45deg);
+            /* position: relative; */
+            z-index: 1;
+        }
+        .container:hover .content {
+            transform: scale(1) rotate(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            刚刚快乐哈嘎管理
+        </div>
+    </div>
+</body>
+</html>
