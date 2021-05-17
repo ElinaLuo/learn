@@ -16,7 +16,7 @@ fetch(url, {
     console.log('statusText: ' + response.statusText);
     console.log('type: ' + response.type);
     console.log('url: ' + response.url);
-    return Promise.resolve(response);
+    return response.json();
   }else{
     return Promise.reject(new Error(response.statusText));
   }

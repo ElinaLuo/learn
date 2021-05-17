@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  padding: 10px;
+}
+.seed-star_wrap .seed-star {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}

@@ -1,22 +1,28 @@
 <template>
-    <div>
-        <div>主页面</div> 
-        <router-view></router-view>
-        <router-link :to="{path: '/foo'}">点击跳转到 foo page</router-link><br>
-        <router-link :to="{path: '/bar'}">点击跳转到 bar page</router-link>
-    </div>
+  <div>
+    <div>{{ num }}</div>
+    <div @click="add">自增</div>
+    <comp1 :num="num" @change="add"></comp1>
+  </div>
 </template>
 
 <script>
+import comp1 from "./components/comp1.vue";
+
 export default {
-    name: 'app',
-    mounted() {
-        console.log(this.$router);
+  components: {
+    comp1,
+  },
+  name: "app",
+  data() {
+    return {
+      num: 1,
+    };
+  },
+  methods: {
+    add() {
+      this.num += 1;
     },
-}
+  },
+};
 </script>
-
-<style>
-
-</style>
-

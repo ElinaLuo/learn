@@ -1,43 +1,42 @@
-let data = {
-  name: 'Tom'
-}
-// 数据响应性
-observe(data)
-// 初始化观察者
-new watcher(data, 'name', updateComponent)
-
-data.name = 'Little Tom'
-// 简单表示用于数据更新后的操作
-function updateComponent() {
-  vm._update()
-}
 // 监视对象
 function observe(obj) {
-  Object.keys(obj).forEach(key => defineReactive(obj, key, obj[key]))
-}
+  if (typeof obj !== 'object') return
 
-function defineReactive(obj, k, v) {
+  Object.keys(obj).forEach(key => defineReactive(obj, key))
+}
+// 将对象变成响应式对象
+function defineReactive(obj, key) {
   // 递归子属性
-  if(type(v) == 'object') {
-    observe(v)
-  }
+    
+  const property = Object.getOwnPropertyDescriptor(obj, key)
   // 新建依赖收集器
   let dep = new Dep()
+  const getter = property && property.get
+  const setter = property && property.set
+  let val = obj[key]
 
-  Object.defineProperty(obj, k, {
+  observe(val)
+  Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     // 定义get/set
     get: function reactiveGetter() {
+      const value = getter ? getter.call(obj) : val
       // 当有获取该属性时，证明依赖于该对象，因此被添加进收集器中
       if(Dep.target) {
         dep.addSub(Dep.target)
       }
-      return v
+      return value
     },
-    set: function reactiveSetter(nv) {
+    set: function reactiveSetter(newVal) {
       // 重新设置值时，触发收集器的通知机制
-      v = newValue
+      if (val === newVal) return
+
+      if (setter) {
+        setter.call(obj, newVal)
+      } else {
+        val = newVal
+      }
       dep.notify()
     }
   })
@@ -55,19 +54,53 @@ class Dep {
     this.subs.forEach(sub => sub.update())
   }
 }
+
 Dep.target = null
 
+const uid = 0;
 class watcher {
-  constructor(obj, k, cb) {
-    Dep.target = obj
-    this.obj = obj
-    this.cb = cb
-    this.key = key
-    this.value = obj[k]
+  constructor(fn) {
+    this.id = uid++;
+    this.getter = fn
+    this.get()
+  }
+  get() {
+    Dep.target = this
+    this.getter()
     Dep.target = null
   }
   update() {
-    this.value = this.obj[this.key]
-    this.cb()
+    this.get()
   }
 }
+
+let reactiveData = {
+  a: {
+    random: 0,
+  },
+  count: 1
+}
+// 数据响应性
+observe(reactiveData)
+// 初始化观察者
+new watcher(render)
+
+// 简单表示用于数据更新后的操作
+function render() {
+  // 这里会被触发多次
+  console.log('render函数被调用');
+  document.getElementById('app').innerHTML = `
+    <div>随机数 = ${ reactiveData.a.random }</div>
+    <div>计数 = ${ reactiveData.count }</div>
+  `;
+}
+function addCount() {
+  reactiveData.count++
+}
+function changeData() {
+  reactiveData.a.random = Math.random()
+}
+
+
+
+

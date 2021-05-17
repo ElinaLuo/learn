@@ -1,5 +1,6 @@
 
 /**
+ * https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest
  * @description 获取XMLHttpRequest对象
  */
 function getXHR() {
@@ -38,6 +39,9 @@ function ajax(url, method) {
   }
   xhr.onload = function() {
     console.log('onload', this.responseType, this.getResponseHeader('Content-Type'), this.getAllResponseHeaders())
+  }
+  xhr.onloadend = function() {
+    console.log('onloadend', this.response);
   }
   xhr.onprogress = function(e) {
     console.log('progress:', e.loaded/e.total);

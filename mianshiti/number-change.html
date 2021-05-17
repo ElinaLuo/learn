@@ -33,7 +33,7 @@
                 }
             },
             watch: {
-                origin: function(oldVal, newVal) {
+                origin: function(newVal, oldVal) {
                     if(newVal !== oldVal) {
                         this.change()
                     }

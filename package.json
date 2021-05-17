@@ -1,0 +1,22 @@
+{
+  "name": "learn",
+  "version": "1.0.0",
+  "description": "learn",
+  "main": "Untitled-1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElinaLuo/learn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElinaLuo/learn/issues"
+  },
+  "homepage": "https://github.com/ElinaLuo/learn#readme",
+  "dependencies": {
+    "path-to-regexp": "^6.1.0"
+  }
+}

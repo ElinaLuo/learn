@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <style>
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <ul v-for="item in list">
+      <li>{{ item.id }}</li>
+    </ul>
+    <div @click="change" style="height: 100px; line-height: 100px">change data</div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          list: [{
+            id: 1
+          }, {
+            id: 2
+          }, {
+            id: 3
+          }],
+        }
+      },
+      mounted() {
+        console.log(this.$data)
+      },
+      methods: {
+        change() {
+          this.list[0].id = Math.random();
+          // 手动触发
+          // this.list.__ob__.dep.notify();
+        }
+      },
+    });
+  </script>
+</body>
+
+</html>

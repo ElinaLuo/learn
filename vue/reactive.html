@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模拟Vue响应式</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    button {
+      padding: 10px 0;
+      border: 1px solid #efefef;
+      width: 70px;
+    }
+    #app {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="changeData()">生成随机数</button>
+    <button onclick="addCount()">计数加1</button>
+    <div id="app"></div>
+  </div>
+  <script src="./reactive.js"></script>
+</body>
+</html>

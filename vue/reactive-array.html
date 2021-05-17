@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    {{ a.b }}{{ a.c }}
+    <div>{{ list[0] }}</div>
+    <div @click="change">修改数据</div>
+    <div @click="change2">修改Array</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          a: {
+            b: 1
+          },
+          list: [1, 2, 3]
+        }
+      },
+      mounted() {
+        console.log(this.$data);
+      },
+      methods: {
+        change() {
+          this.$set(this.a, 'c', 2);
+        },
+        change2() {
+          this.list[0] = {
+            name: 'hhh'
+          }
+        }
+      },
+    })
+  </script>
+</body>
+</html>

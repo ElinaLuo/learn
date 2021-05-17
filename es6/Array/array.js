@@ -9,3 +9,7 @@ const add = (...args) => args.reduce((a, b) => a + b);
 const sum = add(1,2,3)
 
 console.log(sum)
+
+for (const iterator of [1,2,3]) {
+  console.log(iterator);
+}

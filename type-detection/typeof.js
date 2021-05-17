@@ -13,7 +13,8 @@ function newTypeOf(obj) {
   if (obj == null) return String(obj)
   return typeof obj === 'object' ? TYPES[ Object.prototype.toString.call(obj) ] || 'object' : typeof obj
 }
-
+console.log(typeof '哈哈哈' === 'string');
+console.log(newTypeOf('哈哈哈哈'))
 console.log(newTypeOf(null))
 console.log(newTypeOf(undefined))
 console.log(newTypeOf([]))

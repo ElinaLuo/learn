@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import VueRouter from './core/index'
+// import VueRouter from './core/index'
+import VueRouter from 'vue-router'
 import App from './app.vue'
 import Main from './main.vue'
 import Foo from './foo.vue'
@@ -26,7 +27,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    mode: 'hash',
+    mode: 'history',
     routes
 })
 
