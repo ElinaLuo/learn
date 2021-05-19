@@ -31,6 +31,7 @@ function extend1() {
 
     console.log(m1, m1.getType(), m1.sex)
     console.log(m2, m2.getType(), m2.sex)
+    console.log(m1 instanceof Person)
 }
 
 // 寄生组合式继承
@@ -48,6 +49,7 @@ function extend2() {
     }
 
     function Person() {
+      console.log('Person created...')
         this.type = 'person'
     }
     
@@ -63,6 +65,7 @@ function extend2() {
     inheritPrototype(Man, Person)
     
     const m1 = new Man('man')
+    console.log('-222--')
     const m2 = new Man('none')
     m1.type = '111'
 

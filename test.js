@@ -1,31 +1,31 @@
-function timeout2(p, timeout = 1000) {
-  return new Promise((resolve, reject) => {
-    setTimeout(reject, timeout);
-    p.then(res => resolve(res)).catch(e => reject(e));
-  })
-}
+function extend() {
 
-function timeout(promise, delay = 1000) {
-  return Promise.race([
-    promise,
-    new Promise((resolve, reject) => setTimeout(() => reject('timeout'), delay))
-  ]);
-}
-
-
-
-async function test() {
-  const p = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(123);
-    }, 2000);
-  });
-  try {
-    await timeout(p);
-  } catch (error) {
-    if (error === 'timeout') {
-      console.log('超时了');
-    }    
+  function inheritPrototype(child, parent) {
+    let prototype = Object.create(parent.prototype);
+    child.prototype = Object.assign(prototype, child.prototype);
+    child.prototype.constructor = child;
   }
+  function Person() {
+    this.type = 'person';
+  }
+  Person.prototype.getType = function () {
+    return this.type;
+  }
+
+  function Man(name) {
+    Person.apply(this);
+    this.name = name;
+  }
+
+  inheritPrototype(Man, Person)
+
+  const m1 = new Man('man')
+  const m2 = new Man('none')
+  m1.type = '111'
+
+  console.log(m1, m1.getType(), m1.name)
+  console.log(m2, m2.getType(), m2.name)
 }
-test()
+
+extend()
+

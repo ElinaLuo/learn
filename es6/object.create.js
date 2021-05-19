@@ -7,11 +7,17 @@
  * 2. new 内部使用Object.create实现，但是会额外执行构造函数
  * @param {Object} obj 现有对象
  */
-function create(obj) {
+function create1(obj) {
     function F() {}
     // 通过原型，让新对象具有现有对象的属性
     F.prototype = obj
     return new F()
+}
+function create(obj) {
+  const b = {}
+  // 通过原型，让新对象具有现有对象的属性
+  b.__proto__ = obj
+  return b
 }
 
 
