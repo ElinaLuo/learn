@@ -1,45 +1,40 @@
-function Person(name) {
-  console.log('person creating')
-  this.name = name;
-}
-Person.prototype.changeName = function(name) {
-  this.name = name;
+function inheritPrototype(subType, superType){
+  var prototype = Object.create(superType.prototype); // 创建对象，创建父类原型的一个副本
+  prototype.constructor = subType;                    // 增强对象，弥补因重写原型而失去的默认的constructor 属性
+  subType.prototype = prototype;                      // 指定对象，将新创建的对象赋值给子类的原型
 }
 
-function Man() {}
-const person = new Person();
-Man.prototype = person;
+// 父类初始化实例属性和原型属性
+function SuperType(name){
+  this.name = name;
+  this.colors = ["red", "blue", "green"];
+}
+SuperType.prototype.sayName = function(){
+  alert(this.name);
+};
 
-const man = new Man();
+// 借用构造函数传递增强子类实例属性（支持传参和避免篡改）
+function SubType(name, age){
+  SuperType.call(this, name);
+  this.age = age;
+}
 
-console.log(man.__proto__ === Man.prototype)
-console.log(Object.prototype.hasOwnProperty('__proto__'))
-console.log(Person.__proto__ === Function.prototype)
-// console.log(person.__proto__)
-// console.log(Person.__proto__)
-// console.log(Person.prototype.__proto__ === Object.prototype)
-// console.log(Person.constructor === Function)
-// console.log(Person.constructor.constructor === Function)
-// console.log(Function.prototype === Function.__proto__)
-// console.log(Person.prototype.__proto__ === Object.prototype)
-// console.log(Man.prototype.__proto__ === Person.prototype)
-// console.log(Object.constructor === Function)
+// 将父类原型指向子类
+inheritPrototype(SubType, SuperType);
+
+// 新增子类原型属性
+SubType.prototype.sayAge = function(){
+  alert(this.age);
+}
+
+var instance1 = new SubType("xyc", 23);
+var instance2 = new SubType("lxy", 23);
+
+instance1.colors.push("2"); // ["red", "blue", "green", "2"]
+instance1.colors.push("3"); // ["red", "blue", "green", "3"]
 
 
-// function Person(name){
-//   this.name=name; //1
-//   this.className="person" 
-//  }
-//  Person.prototype.getName=function(){
-//   console.log(this.name)
-//  }
-//  function Man(name){
-//    Person.apply(this, arguments)
-//  }
-//  //注意此处
-//  Man.prototype = Object.create(Person.prototype);
-//  //重设constructor
-//  Man.prototype.constructor = Man
-//  const man = new Man("Davin");
-
-//  console.log(man)
+console.log(instance1.__proto__ === SubType.prototype)
+console.log(instance1.__proto__.__proto__ === SuperType.prototype)
+console.log(instance1.__proto__.__proto__.__proto__ === Object.prototype)
+console.log(instance1.__proto__.__proto__.__proto__.__proto__ === null)

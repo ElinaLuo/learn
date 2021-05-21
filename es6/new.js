@@ -8,7 +8,7 @@ function newObject(obj) {
   const args = Array.prototype.slice.call(arguments, 1)
 
   const res = obj.apply(newObj, args)
-  return typeof res === 'object' ? res : newObj
+  return typeof res === 'object' || typeof res === 'function' ? res : newObj
 }
 /**
  * 方法二
@@ -22,7 +22,7 @@ function newObject2(obj) {
   newObj.__proto__ = obj.prototype
 
   const res = obj.apply(newObj, args)
-  return typeof res === 'object' ? res : newObj
+  return typeof res === 'object' || typeof res === 'function' ? res : newObj
 }
 
 function A(value) {

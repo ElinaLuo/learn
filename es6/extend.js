@@ -34,16 +34,14 @@ function extend1() {
     console.log(m1 instanceof Person)
 }
 
-// 寄生组合式继承
+// 寄生组合式继承，除class外最推荐的方式
 function extend2() {
     console.log('---------- 寄生组合式继承 -----------')
 
     // 寄生组合式继承的核心方法
     function inheritPrototype(child, parent) {
       // 继承父类的原型
-      const parentPrototype = Object.create(parent.prototype)
-      // 将父类原型和子类原型合并，并赋值给子类的原型
-      child.prototype = Object.assign(parentPrototype, child.prototype)
+      child.prototype = Object.create(parent.prototype)
       // 重写被污染的子类的constructor
       child.prototype.constructor = child
     }
@@ -60,6 +58,9 @@ function extend2() {
     function Man(sex) {
         Person.apply(this)
         this.sex = sex
+    }
+    Man.prototype.getSex = function() {
+      return this.sex;
     }
     
     inheritPrototype(Man, Person)
