@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>useState用法-状态快照</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- 文档链接：https://zh-hans.react.dev/reference/react/useState -->
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom": "https://esm.sh/react-dom?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { flushSync } from 'react-dom';
+
+import { useState } from 'react';
+
+let App = function Counter() {
+  const [age, setAge] = useState(42);
+
+  function incrementSuccess() {
+    setAge(a => a + 1);
+    // 此时的age并没有变，因为age就像是一个快照，只在下一次渲染时才会生效
+    console.log(`此时age的值没变：age=${age}`);
+  }
+
+  function increment() {
+    flushSync(() => {
+      setAge(age + 1);
+    });
+    console.log(`flushSync 只会强制触发渲染，而age值仍然不会变：age=${age}`);
+  }
+
+  return (
+    <>
+      <h1>Your age: {age}</h1>
+      <button onClick={() => {
+        increment();
+        increment();
+        increment();
+      }}>+3（该功能不能正常生效）</button>
+      <button onClick={() => {
+        incrementSuccess();
+        incrementSuccess();
+        incrementSuccess();
+      }}>+3（该功能正常）</button>
+      <button onClick={() => {
+        increment();
+      }}>+1</button>
+    </>
+  );
+}
+
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+</style>
+</html>

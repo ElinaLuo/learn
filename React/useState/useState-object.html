@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>useState用法</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- 文档链接：https://zh-hans.react.dev/reference/react/useState -->
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import { useState } from 'react';
+
+let App = function Counter() {
+  const [name, setName] = useState('');
+  const [list, setList] = useState([
+    {
+      name: 'xxx1',
+    },
+    {
+      name: 'xxx2',
+    },
+    {
+      name: 'xxx3',
+    }
+  ]);
+
+  function onDelete(name) {
+    setList(list.filter(item => item.name !== name));
+  }
+
+  return (
+    <>
+      <input onChange={e => setName(e.target.value)}></input>      
+      <button onClick={() => {
+        setList([{ name }, ...list])
+      }}>add</button>
+      <ul>
+        {list.map(item => (
+          <li key={item.name}>
+            {item.name}
+            <button onClick={() => onDelete(item.name)}>delete</button>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+</style>
+</html>

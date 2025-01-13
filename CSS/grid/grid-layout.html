@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+  .pageContainer {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    grid-template-rows: 100px 1fr 100px;
+    grid-template-areas: 'header header header'
+                          'left main right'
+                          'footer footer footer';
+  }
+  .header {
+    grid-area: header;
+    background-color: antiquewhite;
+    height: 100px;
+  }
+  .left {
+    grid-area: left;
+    background-color: aqua;
+  }
+  .main { 
+    grid-area: main;
+    background-color: beige;
+  }
+  .right { 
+    grid-area: right;
+    background-color: bisque;
+  }
+  .footer { 
+    grid-area: footer;
+    background-color: greenyellow;
+  }
+  </style>
+</head>
+<body style="margin: 0;">
+  <div class="pageContainer">
+    <div class="header">header</div>
+    <div class="left">left</div>
+    <div class="main">main</div>
+    <div class="right">right</div>
+    <div class="footer">footer</div>
+  </div>
+</body>
+</html>

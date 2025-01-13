@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>useState用法-存储前一次状态信息</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- 文档链接：https://zh-hans.react.dev/learn/preserving-and-resetting-state -->
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import { useState } from 'react';
+// React 不同于 Vue, Vue下不会保留组件的状态
+export default function App() {
+  const [isFancy, setIsFancy] = useState(false);
+  const [isFancy2, setIsFancy2] = useState(false);
+  return (
+    <div>
+      <div>第一个案例（state状态会被保留，因为组件UI的位置没有变化）</div>
+      {isFancy ? (
+        <Counter isFancy={true} /> 
+      ) : (
+        <Counter isFancy={false} />
+      )}
+      <label>
+        <input
+          type="checkbox"
+          checked={isFancy}
+          onChange={e => {
+            setIsFancy(e.target.checked)
+          }}
+        />
+        1.使用好看的样式
+      </label>
+      <div>第二个案例（state状态会被重置，因为在相同位置渲染不同的组件时，组件的整个子树都会被重置）</div>
+      {isFancy2 && <Counter isFancy={true} />}
+      {!isFancy2 && <Counter isFancy={false} />}
+      <label>
+        <input
+          type="checkbox"
+          checked={isFancy2}
+          onChange={e => {
+            setIsFancy2(e.target.checked)
+          }}
+        />
+        2.使用好看的样式
+      </label>
+    </div>
+  );
+}
+
+function Counter({ isFancy }) {
+  const [score, setScore] = useState(0);
+  const [hover, setHover] = useState(false);
+
+  let className = 'counter';
+  if (hover) {
+    className += ' hover';
+  }
+  if (isFancy) {
+    className += ' fancy';
+  }
+
+  return (
+    <div
+      className={className}
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
+    >
+      <h1>{score}</h1>
+      <button onClick={() => setScore(score + 1)}>
+        加一
+      </button>
+    </div>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+.counter {
+  border: 2px solid black;
+}
+.counter.hover {
+  background-color: lightgray;
+}
+.counter.fancy {
+  border: 2px solid pink;
+}
+</style>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>useState用法-存储前一次状态信息</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- 文档链接：https://zh-hans.react.dev/reference/react/useState -->
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import { useState } from 'react';
+
+function CountLabel({ count }) {
+  const [prevCount, setPrevCount] = useState(count);
+  const [trend, setTrend] = useState(null);
+  console.log('1111', prevCount, count);
+  if (prevCount !== count) {
+    setPrevCount(count);
+    setTrend(count > prevCount ? 'increasing' : 'decreasing');
+    console.log('2222');
+  }
+  console.log('3333');
+  return (
+    <>
+      <h1>{count}</h1>
+      {trend && <p>The count is {trend}</p>}
+    </>
+  );
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+  // 状态更新后，函数会重新执行
+  console.log('0000 严格模式下该函数组件每次都会被执行两次（仅在开发环境下生效）');
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+      <button onClick={() => setCount(count - 1)}>
+        Decrement
+      </button>
+      <CountLabel count={count} />
+    </>
+  );
+}
+
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+</style>
+</html>

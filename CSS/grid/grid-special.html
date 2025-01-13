@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>grid</title>
+    <style>
+    .container {
+        display: grid;
+        background-color: #efefef;
+        grid-template-columns: 100px 100px 100px 1fr;
+        grid-template-areas: 'title . . link';
+    }
+    .grid-item {
+      height: 100px;
+      background-color: antiquewhite;
+      border: 1px solid gray;
+    }
+    .title {
+        grid-area: title;
+    }
+    .link {
+        grid-area: link;
+        justify-self: flex-end;
+    }
+    </style>
+</head>
+<body style="margin: 0;">
+  <div class="container">
+      <div class="grid-item title">title</div>
+      <!-- <div class="grid-item icon">icon</div>
+      <div class="grid-item switch">switch</div> -->
+      <div class="grid-item link">link</div>
+  </div>
+  <div class="container">
+    <div class="grid-item title">title</div>
+    <div class="grid-item icon">icon</div>
+    <div class="grid-item switch">switch</div>
+    <!-- <div class="grid-item link">link</div> -->
+</div>
+</body>
+</html>

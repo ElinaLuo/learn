@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>useEffect实现</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- 文档链接：https://zh-hans.react.dev/learn/synchronizing-with-effects -->
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import { useState, useEffect } from 'react';
+
+
+// useEffect严格模式在开发环境下会运动两次，即组件会被挂载两次
+function App() {
+  const [count, setCount] = useState(0);
+  // 每次渲染后执行
+  useEffect(() => {
+    console.log('useEffect 每次渲染都执行');
+    // setCount(count + 1); // 此代码会让程序陷于死循环，因为useEffect会在每次渲染后执行，而setCount会触发重新渲染，导致死循环
+  });
+  // 仅在组件挂载（首次）时执行
+  useEffect(() => {
+    console.log('useEffect 仅首次执行');
+  }, []);
+  // 在组件挂载（首次）或者count变化后执行
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('timeout执行了...', count);
+    }, 3000);
+    return () => { // 该cleanup事件会在每次 Effect 重新运行之前执行或者组件卸载时执行
+      console.log('timeout被清除了');
+      clearTimeout(timer);
+    };
+  }, [count]);
+  useEffect(() => {
+    console.log('useEffect 监听resize');
+    const handleResize = () => {
+      console.log('resize');
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  return (
+    <>
+      {count}
+      <button onClick={() => setCount(count + 1)}>
+        +1
+      </button>
+    </>
+  );
+}
+
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+</style>
+</html>

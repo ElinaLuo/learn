@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Hooks: not magic, just array</title>
+</head>
+<body>
+  <div>
+    <div id="count">0</div>
+    <button id="addBtn">+1</button>
+    <button id="showBtn">是否可用</button>
+  </div>
+</body>
+<script type="text/javascript">
+  const componentHook = [];
+  let cursor = 0;
+  
+  function useState(initialValue) {
+    const newCursor = cursor;
+    // 首次添加
+    if (componentHook[newCursor]) {
+      cursor++;
+      return componentHook[newCursor];
+    }
+    componentHook.push([initialValue, (newValue) => {
+      componentHook[newCursor][0] = newValue;
+      updateDom();
+    }]);
+    cursor++;
+    return componentHook[newCursor];
+  }
+  function App() {
+    const [count, setCount] = useState(0);
+    const [disabled, setDisabled] = useState(false);
+
+    console.log(`count: ${count}, disabled: ${disabled}`);
+
+    function handleClick() {
+      setCount(count + 1);
+    }
+    function toggleDisabled() {
+      setDisabled(!disabled);
+    }
+    return {
+      count,
+      disabled,
+      handleClick,
+      toggleDisabled,
+    };
+  }
+  function updateDom() {
+    cursor = 0;
+    const { count, handleClick, disabled, toggleDisabled } = App();
+    document.getElementById('count').innerText = count;
+    document.getElementById('addBtn').onclick = handleClick;
+    document.getElementById('showBtn').onclick = toggleDisabled;
+    disabled && document.getElementById('showBtn').setAttribute('disabled', true);
+    !disabled && document.getElementById('showBtn').removeAttribute('disabled');
+  }
+  updateDom();
+</script>
+</html>
