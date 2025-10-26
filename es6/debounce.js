@@ -1,17 +1,21 @@
-function debounce(fn, wait, immediate) {
+function debounce(fn, wait, immediate = false) {
   let timer = null
 
-  return function() {
-    const context = this
-    if(!timer && immediate) {
-      fn.apply(context, arguments)
+  return function(...args) {
+    clearTimeout(timer)
+    // 立即执行
+    if(immediate) {
+      if (!timer) {
+        fn.apply(this, args)
+      }
+      setTimeout(() => {
+        timer = null
+      }, wait)
+    } else {
+      timer = setTimeout(() => {
+        fn.apply(this, args)
+      }, wait)
     }
-    if(timer) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(() => {
-      fn.apply(context, arguments)
-    }, wait)
   }
 }
 
