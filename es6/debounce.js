@@ -1,24 +1,25 @@
+import { useEffect, useRef, useCallback } from 'react'
 
 /**
  * 防抖
- * @param {Function} fn 
- * @param {Number} wait 
+ * @param {Function} fn
+ * @param {Number} wait
  * @param {Object} leading 是否立即执行，默认为 false
  * @param {Object} trailing 是否在最后一次调用后延迟执行，默认为 true
- * @returns 
+ * @returns
  */
 function debounce(fn, wait, { leading = false, trailing = true } = {}) {
   let timeoutId = null
 
-  const cancel = function() {
+  const cancel = function () {
     clearTimeout(timeoutId)
     timeoutId = null
   }
-  const debounced = function(...args) {
+  const debounced = function (...args) {
     // 每次调用都重新计时
     clearTimeout(timeoutId)
     // 立即执行
-    if(leading && !timeoutId) {
+    if (leading && !timeoutId) {
       fn.apply(this, args)
     }
     timeoutId = setTimeout(() => {
@@ -32,9 +33,33 @@ function debounce(fn, wait, { leading = false, trailing = true } = {}) {
   return debounced
 }
 
-const fn = debounce((msg) => {
-  console.log('click', msg)
-}, 1000, { leading: true, trailing: true })
+function useDebounceEffect(fn, deps, options) {
+  const { wait, ...restOptions } = options || {}
+  const debouncedFn = useCallback(debounce(fn, wait, restOptions), [options])
+
+  useEffect(() => {
+    debouncedFn()
+    return () => {
+      debouncedFn.cancel()
+    }
+  }, deps)
+}
+
+useDebounceEffect(
+  function () {
+    console.log('debounce effect')
+  },
+  1000,
+  { leading: true, trailing: false }
+)
+
+const fn = debounce(
+  (msg) => {
+    console.log('click', msg)
+  },
+  1000,
+  { leading: true, trailing: true }
+)
 fn('第1次调用')
 fn('第2次调用')
 fn('第3次调用')
