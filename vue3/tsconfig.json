@@ -5,7 +5,7 @@
     "jsx": "Preserve",
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true
   },
   "vueCompilerOptions": {
