@@ -1,39 +1,49 @@
 /**
  * 方法一
- * @description 利用object.create方式
+ * @description 手动修改原型链
  */
-function newObject(obj) {
-  let newObj = Object.create(obj.prototype)
+function myNew(Func, ...args) {
+  const newObj = {}
+  newObj.constructor = Func
+  newObj.__proto__ = Func.prototype
 
-  const args = Array.prototype.slice.call(arguments, 1)
-
-  const res = obj.apply(newObj, args)
+  const res = Func.apply(newObj, args)
   return typeof res === 'object' || typeof res === 'function' ? res : newObj
 }
 /**
  * 方法二
- * @description 手动修改原型链
+ * @description 利用object.create方式
  */
-function newObject2(obj) {
-  let newObj = new Object()
-  const args = Array.prototype.slice.call(arguments, 1)
-
-  newObj.constructor = obj
-  newObj.__proto__ = obj.prototype
-
-  const res = obj.apply(newObj, args)
-  return typeof res === 'object' || typeof res === 'function' ? res : newObj
+function myNew2(Func, ...args) {
+  const obj = Object.create(Func.prototype)
+  // true
+  console.log('myNew2-->', obj.constructor === Func.prototype.constructor, Func.constructor === Function);
+  const res = Func.apply(obj, args)
+  return typeof res === 'object' || typeof res === 'function' ? res : obj
 }
 
-function A(value) {
-  this.name = value
-}
-A.prototype.getName = function() {
-  console.log(this.name)
+function F(type) {
+  this.type = type
 }
 
-const a = newObject(A, 22)
-const a2 = newObject2(A, 22)
+const obj = myNew(F, 'man')
+const obj2 = myNew2(F, 'woman')
+console.log('obj-->', obj.type);
+console.log(obj.constructor === F)
+console.log(Object.getPrototypeOf(obj) === F.prototype)
+console.log('obj2-->', obj2.type);
+console.log(obj2.constructor === F)
+console.log(Object.getPrototypeOf(obj2) === F.prototype)
 
-// a.getName()
-a2.getName()
+// function A(value) {
+//   this.name = value
+// }
+// A.prototype.getName = function() {
+//   console.log(this.name)
+// }
+
+// const a = myNew(A, 22)
+// const a2 = myNew2(A, 22)
+
+// // a.getName()
+// a2.getName()
