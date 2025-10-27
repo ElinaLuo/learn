@@ -30,6 +30,43 @@ function throttle(fn, delay, context) {
   }
 }
 
+
+function debounce(fn, wait, { leading = false, trailing = true } = {}) {
+  let timeoutId = null
+  const cancel = function () {
+    clearTimeout(timeoutId)
+    timeoutId = null
+  }
+  const debounced = function (...args) {
+    clearTimeout(timeoutId)
+
+    if (timeoutId === null && leading) {
+      fn.apply(this, args)
+    }
+    timeoutId = setTimeout(() => {
+      if (trailing) {
+        fn.apply(this, args)
+      }
+      cancel()
+    }, wait)
+  }
+
+  debounced.cancel = cancel
+  return debounced
+}
+function throttle(fn, wait, options = {}) {
+  let previous = 0
+  const debouncedFn = debounce(fn, wait, options)
+
+  return function (...args) {
+    debouncedFn.apply(this, args)
+    if (Date.now() - previous >= wait) {
+      debouncedFn.cancel()
+      previous = Date.now()
+    }
+  }
+}
+
 // 模拟手动每隔5s触发
 const intervalID = setInterval(throttling(function(e) {
   console.log('--- handle ---', e)
