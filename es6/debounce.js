@@ -15,12 +15,17 @@ function _now() {
  * @param {Number} maxWait 最大延迟时间，仅用于throttle
  * @returns
  */
-function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } = {}) {
+function myDebounce(fn, wait, options) {
   let timeoutId
   let lastCallTime = 0
   let lastInvokeTime = 0
   let lastArgs
   let lastThis
+  let maxWait
+  let maxing = false
+  const { leading = false, trailing = true } = options || {}
+  maxing = 'maxing' in options
+  maxWait = maxing ? Math.max(options.maxWait, wait) : maxWait
 
   function shouldInvoke(time) {
     return (
@@ -57,7 +62,7 @@ function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } 
     const timeSinceLastCall = time - lastCallTime
     // 防抖剩余等待时间
     const timeWaiting = wait - timeSinceLastCall
-    return maxWait ? Math.min(timeWaiting, maxWait - (time - lastInvokeTime)) : timeWaiting
+    return maxing ? Math.min(timeWaiting, maxWait - (time - lastInvokeTime)) : timeWaiting
   }
 
   // 定时器执行函数
@@ -75,7 +80,7 @@ function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } 
     timeoutId = undefined
     lastCallTime = 0
   }
-  const debounced = function (...args) {
+  function debounced(...args) {
     const time = _now()
     const isInvoking = shouldInvoke(time)
     lastCallTime = time
@@ -94,7 +99,7 @@ function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } 
   return debounced
 }
 
-const useLodash = false
+const useLodash = true
 console.log('useLodash', useLodash ? 'lodash' : 'myDebounce');
 
 const fn = (useLodash ? debounce : myDebounce)(
@@ -102,7 +107,7 @@ const fn = (useLodash ? debounce : myDebounce)(
     console.log('click', msg, _now() - initTime)
   },
   1000,
-  { leading: true, trailing: true, maxWait: 0 }
+  { leading: true, trailing: true, maxWait: 1600 }
 )
 const initTime = _now()
 fn('第1次调用')
