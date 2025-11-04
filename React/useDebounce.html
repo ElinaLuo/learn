@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>useDebounce</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<!-- 文档地址：https://zh-hans.react.dev/reference/react-dom/flushSync -->
+<!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react",
+    "react-dom": "https://esm.sh/react-dom",
+    "react-dom/client": "https://esm.sh/react-dom/client",
+    "debounce": "../es6/debounce_throttle.js"
+  }
+}
+</script>
+<script type="text/babel" data-type="module">
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import { useRef, useState, useEffect, useMemo } from 'react';
+import { myDebounce } from 'debounce'
+
+function useDebounceEffect(effect, deps = [], options) {
+  const [flag, setFlag] = useState({})
+  const isMount = useRef(false)
+  const debouncedFn = useMemo(() => 
+    myDebounce(() => {
+      setFlag({})
+    },
+    options.wait, 
+    options
+  ), [])
+
+  useEffect(() => {
+    return () => {
+      debouncedFn.cancel()
+    }
+  }, [])
+
+  useEffect(() => {
+    debugger
+    debouncedFn()
+  }, deps)
+
+  useEffect(() => {
+    return () => {
+       isMount.current = false
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMount.current) {
+      isMount.current = true
+    } else {
+      effect()
+    }
+  }, [flag])
+}
+
+let App = () => {
+  const [count, setCount] = useState(1)
+  useDebounceEffect(() => {
+    console.log('count=', count)
+  }, [count], { leading: true, trailing: true, wait: 1000 })
+
+  function handleAdd() {
+    setCount((val) => val + 1)
+  }
+  return (
+    <div className='App'>
+      <h1>Hello React.</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      <button onClick={handleAdd}>ADD</button>
+      <div>count={count}</div>
+    </div>
+  );
+}
+
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+</style>
+</html>
