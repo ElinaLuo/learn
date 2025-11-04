@@ -1,6 +1,5 @@
-// import { useEffect, useRef, useCallback } from 'react'
-
-import debounce from 'lodash/debounce.js'
+// import { watch } from 'vue'
+// import debounce from 'lodash/debounce.js'
 
 function _now() {
   return Date.now()
@@ -15,7 +14,7 @@ function _now() {
  * @param {Number} maxWait 最大延迟时间，仅用于throttle
  * @returns
  */
-function myDebounce(fn, wait, options) {
+export function myDebounce(fn, wait, options) {
   let timeoutId
   let lastCallTime = 0
   let lastInvokeTime = 0
@@ -81,6 +80,7 @@ function myDebounce(fn, wait, options) {
     lastCallTime = 0
   }
   function debounced(...args) {
+  // console.log(...args);
     const time = _now()
     const isInvoking = shouldInvoke(time)
     lastCallTime = time
@@ -99,43 +99,27 @@ function myDebounce(fn, wait, options) {
   return debounced
 }
 
-const useLodash = true
-console.log('useLodash', useLodash ? 'lodash' : 'myDebounce');
+export function watchDebounced(source, cb, options) {
+  const watch = import('vue').watch
+  const { leading, trailing, wait, maxWait, ...watchOptions } = options
+  watch(source, myDebounce(cb, options.wait, { leading, trailing, wait, maxWait }), watchOptions)
+}
 
-const fn = (useLodash ? debounce : myDebounce)(
-  (msg) => {
-    console.log('click', msg, _now() - initTime)
-  },
-  1000,
-  { leading: true, trailing: true, maxWait: 1600 }
-)
-const initTime = _now()
-fn('第1次调用')
-fn('第2次调用')
-fn('第3次调用')
-setTimeout(() => fn('第4次调用'), 400)
-setTimeout(() => fn('第5次调用'), 1450)
-setTimeout(() => fn('第6次调用'), 2000)
-setTimeout(() => fn('第7次调用'), 2200)
+// const useLodash = false
+// console.log('useLodash', useLodash ? 'lodash' : 'myDebounce');
 
-// function useDebounceEffect(fn, deps, options) {
-//   const { wait, ...restOptions } = options || {}
-//   const debouncedFn = useCallback(debounce(fn, wait, restOptions), [options])
-
-//   useEffect(() => {
-//     debouncedFn()
-//     return () => {
-//       debouncedFn.cancel()
-//     }
-//   }, deps)
-// }
-
-// useDebounceEffect(
-//   function () {
-//     console.log('debounce effect')
+// const fn = (useLodash ? debounce : myDebounce)(
+//   (msg) => {
+//     console.log('click', msg, _now() - initTime)
 //   },
 //   1000,
-//   { leading: true, trailing: false }
+//   { leading: true, trailing: true, maxWait: 1600 }
 // )
-
-
+// const initTime = _now()
+// fn('第1次调用')
+// fn('第2次调用')
+// fn('第3次调用')
+// setTimeout(() => fn('第4次调用'), 400)
+// setTimeout(() => fn('第5次调用'), 1450)
+// setTimeout(() => fn('第6次调用'), 2000)
+// setTimeout(() => fn('第7次调用'), 2200)
