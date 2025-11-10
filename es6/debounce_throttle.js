@@ -1,6 +1,5 @@
-// import { useEffect, useRef, useCallback } from 'react'
-
-import debounce from 'lodash/debounce.js'
+// import { watch } from 'vue'
+// import debounce from 'lodash/debounce.js'
 
 function _now() {
   return Date.now()
@@ -15,12 +14,17 @@ function _now() {
  * @param {Number} maxWait 最大延迟时间，仅用于throttle
  * @returns
  */
-function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } = {}) {
+export function myDebounce(fn, wait, options) {
   let timeoutId
   let lastCallTime = 0
   let lastInvokeTime = 0
   let lastArgs
   let lastThis
+  let maxWait
+  let maxing = false
+  const { leading = false, trailing = true } = options || {}
+  maxing = 'maxing' in options
+  maxWait = maxing ? Math.max(options.maxWait, wait) : maxWait
 
   function shouldInvoke(time) {
     return (
@@ -57,7 +61,7 @@ function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } 
     const timeSinceLastCall = time - lastCallTime
     // 防抖剩余等待时间
     const timeWaiting = wait - timeSinceLastCall
-    return maxWait ? Math.min(timeWaiting, maxWait - (time - lastInvokeTime)) : timeWaiting
+    return maxing ? Math.min(timeWaiting, maxWait - (time - lastInvokeTime)) : timeWaiting
   }
 
   // 定时器执行函数
@@ -75,7 +79,8 @@ function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } 
     timeoutId = undefined
     lastCallTime = 0
   }
-  const debounced = function (...args) {
+  function debounced(...args) {
+  // console.log(...args);
     const time = _now()
     const isInvoking = shouldInvoke(time)
     lastCallTime = time
@@ -94,43 +99,27 @@ function myDebounce(fn, wait, { leading = false, trailing = true, maxWait = 0 } 
   return debounced
 }
 
-const useLodash = false
-console.log('useLodash', useLodash ? 'lodash' : 'myDebounce');
+export function watchDebounced(source, cb, options) {
+  const watch = import('vue').watch
+  const { leading, trailing, wait, maxWait, ...watchOptions } = options
+  watch(source, myDebounce(cb, options.wait, { leading, trailing, wait, maxWait }), watchOptions)
+}
 
-const fn = (useLodash ? debounce : myDebounce)(
-  (msg) => {
-    console.log('click', msg, _now() - initTime)
-  },
-  1000,
-  { leading: true, trailing: true, maxWait: 0 }
-)
-const initTime = _now()
-fn('第1次调用')
-fn('第2次调用')
-fn('第3次调用')
-setTimeout(() => fn('第4次调用'), 400)
-setTimeout(() => fn('第5次调用'), 1450)
-setTimeout(() => fn('第6次调用'), 2000)
-setTimeout(() => fn('第7次调用'), 2200)
+// const useLodash = false
+// console.log('useLodash', useLodash ? 'lodash' : 'myDebounce');
 
-// function useDebounceEffect(fn, deps, options) {
-//   const { wait, ...restOptions } = options || {}
-//   const debouncedFn = useCallback(debounce(fn, wait, restOptions), [options])
-
-//   useEffect(() => {
-//     debouncedFn()
-//     return () => {
-//       debouncedFn.cancel()
-//     }
-//   }, deps)
-// }
-
-// useDebounceEffect(
-//   function () {
-//     console.log('debounce effect')
+// const fn = (useLodash ? debounce : myDebounce)(
+//   (msg) => {
+//     console.log('click', msg, _now() - initTime)
 //   },
 //   1000,
-//   { leading: true, trailing: false }
+//   { leading: true, trailing: true, maxWait: 1600 }
 // )
-
-
+// const initTime = _now()
+// fn('第1次调用')
+// fn('第2次调用')
+// fn('第3次调用')
+// setTimeout(() => fn('第4次调用'), 400)
+// setTimeout(() => fn('第5次调用'), 1450)
+// setTimeout(() => fn('第6次调用'), 2000)
+// setTimeout(() => fn('第7次调用'), 2200)

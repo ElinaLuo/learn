@@ -119,7 +119,7 @@
   resolved "http://r.npm.sankuai.com/@jridgewell/resolve-uri/download/@jridgewell/resolve-uri-3.1.2.tgz"
   integrity sha1-eg7mAfYPmaIMfHxf8MgDiMEYm9Y=
 
-"@jridgewell/sourcemap-codec@^1.4.10", "@jridgewell/sourcemap-codec@^1.4.14", "@jridgewell/sourcemap-codec@^1.5.0":
+"@jridgewell/sourcemap-codec@^1.4.10", "@jridgewell/sourcemap-codec@^1.4.14", "@jridgewell/sourcemap-codec@^1.5.0", "@jridgewell/sourcemap-codec@^1.5.5":
   version "1.5.5"
   resolved "http://r.npm.sankuai.com/@jridgewell/sourcemap-codec/download/@jridgewell/sourcemap-codec-1.5.5.tgz"
   integrity sha1-aRKwDSxjHA0Vzhp6tXzWV/Ko+Lo=
@@ -272,6 +272,86 @@
     "@vue/babel-plugin-transform-vue-jsx" "^1.4.0"
     camelcase "^5.0.0"
 
+"@vue/compiler-core@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/compiler-core/download/@vue/compiler-core-3.5.22.tgz#bb8294a0dd31df540563cc6ffa0456f1f7687b97"
+  integrity sha1-u4KUoN0x31QFY8xv+gRW8fdoe5c=
+  dependencies:
+    "@babel/parser" "^7.28.4"
+    "@vue/shared" "3.5.22"
+    entities "^4.5.0"
+    estree-walker "^2.0.2"
+    source-map-js "^1.2.1"
+
+"@vue/compiler-dom@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/compiler-dom/download/@vue/compiler-dom-3.5.22.tgz#6c9c2c9843520f6d3dbc685e5d0e1e12a2c04c56"
+  integrity sha1-bJwsmENSD209vGheXQ4eEqLATFY=
+  dependencies:
+    "@vue/compiler-core" "3.5.22"
+    "@vue/shared" "3.5.22"
+
+"@vue/compiler-sfc@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/compiler-sfc/download/@vue/compiler-sfc-3.5.22.tgz#663a8483b1dda8de83b6fa1aab38a52bf73dd965"
+  integrity sha1-ZjqEg7HdqN6DtvoaqzilK/c92WU=
+  dependencies:
+    "@babel/parser" "^7.28.4"
+    "@vue/compiler-core" "3.5.22"
+    "@vue/compiler-dom" "3.5.22"
+    "@vue/compiler-ssr" "3.5.22"
+    "@vue/shared" "3.5.22"
+    estree-walker "^2.0.2"
+    magic-string "^0.30.19"
+    postcss "^8.5.6"
+    source-map-js "^1.2.1"
+
+"@vue/compiler-ssr@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/compiler-ssr/download/@vue/compiler-ssr-3.5.22.tgz#a0ef16e364731b25e79a13470569066af101320f"
+  integrity sha1-oO8W42RzGyXnmhNHBWkGavEBMg8=
+  dependencies:
+    "@vue/compiler-dom" "3.5.22"
+    "@vue/shared" "3.5.22"
+
+"@vue/reactivity@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/reactivity/download/@vue/reactivity-3.5.22.tgz#9b26f8557c96df46c9a859914a2229f3ca5b8f4f"
+  integrity sha1-myb4VXyW30bJqFmRSiIp88pbj08=
+  dependencies:
+    "@vue/shared" "3.5.22"
+
+"@vue/runtime-core@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/runtime-core/download/@vue/runtime-core-3.5.22.tgz#e004c1e35f423555a0e4c10646ef3e9d380643d1"
+  integrity sha1-4ATB419CNVWg5MEGRu8+nTgGQ9E=
+  dependencies:
+    "@vue/reactivity" "3.5.22"
+    "@vue/shared" "3.5.22"
+
+"@vue/runtime-dom@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/runtime-dom/download/@vue/runtime-dom-3.5.22.tgz#01276cea7cb9ac2b9aba046adfb5903b494e2e7e"
+  integrity sha1-ASds6ny5rCuaugRq37WQO0lOLn4=
+  dependencies:
+    "@vue/reactivity" "3.5.22"
+    "@vue/runtime-core" "3.5.22"
+    "@vue/shared" "3.5.22"
+    csstype "^3.1.3"
+
+"@vue/server-renderer@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/server-renderer/download/@vue/server-renderer-3.5.22.tgz#d134e3409094044bd066d9803714677457756157"
+  integrity sha1-0TTjQJCUBEvQZtmANxRndFd1YVc=
+  dependencies:
+    "@vue/compiler-ssr" "3.5.22"
+    "@vue/shared" "3.5.22"
+
+"@vue/shared@3.5.22":
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/@vue/shared/download/@vue/shared-3.5.22.tgz#9d56a1644a3becb8af1e34655928b0e288d827f8"
+  integrity sha1-nVahZEo77LivHjRlWSiw4ojYJ/g=
+
 acorn-walk@^8.1.1:
   version "8.3.4"
   resolved "http://r.npm.sankuai.com/acorn-walk/download/acorn-walk-8.3.4.tgz"
@@ -304,6 +384,11 @@ create-require@^1.1.0:
   resolved "http://r.npm.sankuai.com/create-require/download/create-require-1.1.1.tgz"
   integrity sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=
 
+csstype@^3.1.3:
+  version "3.1.3"
+  resolved "http://r.npm.sankuai.com/csstype/download/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
+  integrity sha1-2A/ylNEU+w5qxQD7+FtgE31+/4E=
+
 dayjs@^1.11.7:
   version "1.11.18"
   resolved "http://r.npm.sankuai.com/dayjs/download/dayjs-1.11.18.tgz"
@@ -321,10 +406,20 @@ diff@^4.0.1:
   resolved "http://r.npm.sankuai.com/diff/download/diff-4.0.2.tgz"
   integrity sha1-YPOuy4nV+uUgwRqhnvwruYKq3n0=
 
+entities@^4.5.0:
+  version "4.5.0"
+  resolved "http://r.npm.sankuai.com/entities/download/entities-4.5.0.tgz#5d268ea5e7113ec74c4d033b79ea5a35a488fb48"
+  integrity sha1-XSaOpecRPsdMTQM7eepaNaSI+0g=
+
 es-toolkit@^1.40.0:
   version "1.40.0"
   resolved "http://r.npm.sankuai.com/es-toolkit/download/es-toolkit-1.40.0.tgz"
   integrity sha1-ETLj2KmQKY7dCNe4MKEsTuu+grs=
+
+estree-walker@^2.0.2:
+  version "2.0.2"
+  resolved "http://r.npm.sankuai.com/estree-walker/download/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
+  integrity sha1-UvAQF4wqTBF6d1fP6UKtt9LaTKw=
 
 html-tags@^2.0.0:
   version "2.0.0"
@@ -356,6 +451,13 @@ lodash@^4.17.21:
   resolved "http://r.npm.sankuai.com/lodash/download/lodash-4.17.21.tgz"
   integrity sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=
 
+magic-string@^0.30.19:
+  version "0.30.21"
+  resolved "http://r.npm.sankuai.com/magic-string/download/magic-string-0.30.21.tgz#56763ec09a0fa8091df27879fd94d19078c00d91"
+  integrity sha1-VnY+wJoPqAkd8nh5/ZTRkHjADZE=
+  dependencies:
+    "@jridgewell/sourcemap-codec" "^1.5.5"
+
 make-error@^1.1.1:
   version "1.3.6"
   resolved "http://r.npm.sankuai.com/make-error/download/make-error-1.3.6.tgz"
@@ -365,6 +467,11 @@ ms@^2.1.3:
   version "2.1.3"
   resolved "http://r.npm.sankuai.com/ms/download/ms-2.1.3.tgz"
   integrity sha1-V0yBOM4dK1hh8LRFedut1gxmFbI=
+
+nanoid@^3.3.11:
+  version "3.3.11"
+  resolved "http://r.npm.sankuai.com/nanoid/download/nanoid-3.3.11.tgz#4f4f112cefbe303202f2199838128936266d185b"
+  integrity sha1-T08RLO++MDIC8hmYOBKJNiZtGFs=
 
 normalize-wheel@^1.0.1:
   version "1.0.1"
@@ -386,6 +493,15 @@ popper.js@^1.16.1:
   resolved "http://r.npm.sankuai.com/popper.js/download/popper.js-1.16.1.tgz"
   integrity sha1-KiI8s9x7YhPXQOQDcr5A3kPmWxs=
 
+postcss@^8.5.6:
+  version "8.5.6"
+  resolved "http://r.npm.sankuai.com/postcss/download/postcss-8.5.6.tgz#2825006615a619b4f62a9e7426cc120b349a8f3c"
+  integrity sha1-KCUAZhWmGbT2Kp50JswSCzSajzw=
+  dependencies:
+    nanoid "^3.3.11"
+    picocolors "^1.1.1"
+    source-map-js "^1.2.1"
+
 react@^19.2.0:
   version "19.2.0"
   resolved "http://r.npm.sankuai.com/react/download/react-19.2.0.tgz#d33dd1721698f4376ae57a54098cb47fc75d93a5"
@@ -395,6 +511,11 @@ resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "http://r.npm.sankuai.com/resize-observer-polyfill/download/resize-observer-polyfill-1.5.1.tgz"
   integrity sha1-DpAg3T0hAkRY1OvSfiPkAmmBBGQ=
+
+source-map-js@^1.2.1:
+  version "1.2.1"
+  resolved "http://r.npm.sankuai.com/source-map-js/download/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"
+  integrity sha1-HOVlD93YerwJnto33P8CTCZnrkY=
 
 svg-tags@^1.0.0:
   version "1.0.0"
@@ -449,6 +570,17 @@ vue-frag@^1.4.1:
   version "1.4.3"
   resolved "http://r.npm.sankuai.com/vue-frag/download/vue-frag-1.4.3.tgz"
   integrity sha1-riB+L5ygX7QHhlgtMHBcj4QM37Y=
+
+vue@^3.5.22:
+  version "3.5.22"
+  resolved "http://r.npm.sankuai.com/vue/download/vue-3.5.22.tgz#2b8ddb94ee4b640ef12fe7f6efe1cf16f3b582e7"
+  integrity sha1-K43blO5LZA7xL+f27+HPFvO1guc=
+  dependencies:
+    "@vue/compiler-dom" "3.5.22"
+    "@vue/compiler-sfc" "3.5.22"
+    "@vue/runtime-dom" "3.5.22"
+    "@vue/server-renderer" "3.5.22"
+    "@vue/shared" "3.5.22"
 
 yn@3.1.1:
   version "3.1.1"

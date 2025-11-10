@@ -1,36 +1,51 @@
-function myCreate(proto, props) {
-    function F() {}
-    F.prototype = proto
-    const obj = new F()
-    if (props !== undefined) {
-        Object.defineProperties(obj, props)
-    }
-    return obj
+class MyPromise {
+  status = 'pending';
+  stack = [];
+  constructor(fn) {
+    fn(this.resolve.bind(this), this.reject.bind(this));
+  }
+
+  resolve(value) {
+    if (this.status !== 'pending') return;
+    this.status = 'fulfilled';
+    this.value = value;
+  }
+
+  reject(reason) {
+    if (this.status !== 'pending') return;
+    this.status = 'rejected';
+    this.reason = reason;
+  }
 }
 
-function myNew(fn, ...args) {
-    const obj = Object.create(fn.prototype)
-    const res = fn.apply(obj, args)
-    return typeof res === 'object' || typeof res === 'function' ? res : obj
+// MyPromise.prototype.resolve = function (value) {
+//   if (value instanceof MyPromise) {
+//     return value;
+//   }
+//   return MyPromise.resolve(value);
+// };
+
+MyPromise.prototype.then = function (onSuccess, onFail) {
+  this.stack.push([onSuccess, onFail]);
+  console.log(this.stack);
+  return this;
+};
+
+function test() {
+  return new MyPromise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 1000);
+  });
 }
 
-function myNew2(fn, ...args) {
-    const obj = {}
-    Object.setPrototypeOf(obj, fn.prototype)
-    obj.constructor = fn
-    const res = fn.apply(obj, args)
-    return typeof res === 'object' || typeof res === 'function' ? res : obj
-}
-
-function Color(color) {
-    this.color = color
-}
-
-Color.prototype.getDescription = function () {
-    console.log(`颜色是${this.color}`)
-}
-
-const pink = myNew(Color, 'pink')
-console.log(pink);
-console.log(pink.constructor)
-console.log(Color.prototype.constructor)
+test()
+  .then((res) => {
+    console.log('1--', res);
+  })
+  .then((res) => {
+    console.log('2--', res);
+  })
+  .then((res) => {
+    console.log('3--', res);
+  });
