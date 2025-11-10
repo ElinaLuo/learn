@@ -2,7 +2,7 @@
 // import debounce from 'lodash/debounce.js'
 
 function _now() {
-  return Date.now()
+  return Date.now();
 }
 /**
  * 防抖
@@ -15,94 +15,100 @@ function _now() {
  * @returns
  */
 export function myDebounce(fn, wait, options) {
-  let timeoutId
-  let lastCallTime = 0
-  let lastInvokeTime = 0
-  let lastArgs
-  let lastThis
-  let maxWait
-  let maxing = false
-  const { leading = false, trailing = true } = options || {}
-  maxing = 'maxing' in options
-  maxWait = maxing ? Math.max(options.maxWait, wait) : maxWait
+  let timeoutId;
+  let lastCallTime = 0;
+  let lastInvokeTime = 0;
+  let lastArgs;
+  let lastThis;
+  let maxWait;
+  let maxing = false;
+  const { leading = false, trailing = true } = options || {};
+  maxing = 'maxing' in options;
+  maxWait = maxing ? Math.max(options.maxWait, wait) : maxWait;
 
   function shouldInvoke(time) {
     return (
       lastCallTime === 0 || // 第一次调用
       time - lastCallTime >= wait || // 调用间隔超过 wait
       (maxWait && time - lastInvokeTime >= maxWait) // 实际执行间隔超过 maxWait
-    )
+    );
   }
 
   // 执行函数
   function invokeFunc(time) {
-    lastInvokeTime = time
-    fn.apply(lastThis, lastArgs)
+    lastInvokeTime = time;
+    fn.apply(lastThis, lastArgs);
   }
 
   // 节流开始执行函数
   function leadingEdge(time) {
-    timeoutId = setTimeout(timeExpired, wait)
+    timeoutId = setTimeout(timeExpired, wait);
     if (leading) {
-      invokeFunc(time)
+      invokeFunc(time);
     }
   }
   // 节流结束执行函数
   function trailingEdge(time) {
     if (trailing) {
-      invokeFunc(time)
+      invokeFunc(time);
     }
-    cancel()
+    cancel();
   }
 
   // 计算剩余等待时间
   function remainingWait(time) {
     // 上次调用时间距离当前时间
-    const timeSinceLastCall = time - lastCallTime
+    const timeSinceLastCall = time - lastCallTime;
     // 防抖剩余等待时间
-    const timeWaiting = wait - timeSinceLastCall
-    return maxing ? Math.min(timeWaiting, maxWait - (time - lastInvokeTime)) : timeWaiting
+    const timeWaiting = wait - timeSinceLastCall;
+    return maxing
+      ? Math.min(timeWaiting, maxWait - (time - lastInvokeTime))
+      : timeWaiting;
   }
 
   // 定时器执行函数
   function timeExpired() {
-    const time = _now()
+    const time = _now();
     // 第一次或者已经过了等待时间，触发 trailingEdge，不需要设置定时器
     if (shouldInvoke(time)) {
-      return trailingEdge(time)
+      return trailingEdge(time);
     }
     // 计算剩余时间，重置定时器
-    timeoutId = setTimeout(timeExpired, remainingWait(time))
+    timeoutId = setTimeout(timeExpired, remainingWait(time));
   }
   function cancel() {
-    clearTimeout(timeoutId)
-    timeoutId = undefined
-    lastCallTime = 0
+    clearTimeout(timeoutId);
+    timeoutId = undefined;
+    lastCallTime = 0;
   }
   function debounced(...args) {
-  // console.log(...args);
-    const time = _now()
-    const isInvoking = shouldInvoke(time)
-    lastCallTime = time
-    lastArgs = args
-    lastThis = this
+    // console.log(...args);
+    const time = _now();
+    const isInvoking = shouldInvoke(time);
+    lastCallTime = time;
+    lastArgs = args;
+    lastThis = this;
     if (isInvoking) {
       if (timeoutId === undefined) {
-        return leadingEdge(time)
+        return leadingEdge(time);
       }
     }
     if (timeoutId === undefined) {
-      timeoutId = setTimeout(timeExpired, wait)
+      timeoutId = setTimeout(timeExpired, wait);
     }
   }
-  debounced.cancel = cancel
-  return debounced
+  debounced.cancel = cancel;
+  return debounced;
 }
 
 export function watchDebounced(source, cb, options) {
-  const watch = import('vue').watch
-  const { leading, trailing, wait, maxWait, ...watchOptions } = options
-  watch(source, myDebounce(cb, options.wait, { leading, trailing, wait, maxWait }), watchOptions)
+  const watch = import('vue').watch;
+  const { leading, trailing, wait, maxWait, ...watchOptions } = options;
+  watch(
+    source,
+    myDebounce(cb, options.wait, { leading, trailing, wait, maxWait }),
+    watchOptions
+  );
 }
 
 // const useLodash = false
