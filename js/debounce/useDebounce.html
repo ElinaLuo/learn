@@ -19,7 +19,7 @@
     "react": "https://esm.sh/react",
     "react-dom": "https://esm.sh/react-dom",
     "react-dom/client": "https://esm.sh/react-dom/client",
-    "debounce": "../es6/debounce_throttle.js"
+    "myDebounce": "./debounce_throttle.js"
   }
 }
 </script>
@@ -28,43 +28,46 @@ import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { useRef, useState, useEffect, useMemo } from 'react';
-import { myDebounce } from 'debounce'
+import { myDebounce } from 'myDebounce'
 
 function useDebounceEffect(effect, deps = [], options) {
-  const [flag, setFlag] = useState({})
-  const isMount = useRef(false)
-  const debouncedFn = useMemo(() => 
-    myDebounce(() => {
-      setFlag({})
-    },
-    options.wait, 
-    options
-  ), [])
+  const [flag, setFlag] = useState({});
+  const isMount = useRef(false);
+  const debouncedFn = useMemo(
+    () =>
+      myDebounce(
+        () => {
+          setFlag({});
+        },
+        options.wait,
+        options
+      ),
+    []
+  );
 
   useEffect(() => {
     return () => {
-      debouncedFn.cancel()
-    }
-  }, [])
+      debouncedFn.cancel();
+    };
+  }, []);
 
   useEffect(() => {
-    debugger
-    debouncedFn()
-  }, deps)
+    debouncedFn();
+  }, deps);
 
   useEffect(() => {
     return () => {
-       isMount.current = false
-    }
-  }, [])
+      isMount.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!isMount.current) {
-      isMount.current = true
+      isMount.current = true;
     } else {
-      effect()
+      effect();
     }
-  }, [flag])
+  }, [flag]);
 }
 
 let App = () => {

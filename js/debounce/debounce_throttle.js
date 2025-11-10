@@ -1,4 +1,3 @@
-// import { watch } from 'vue'
 // import debounce from 'lodash/debounce.js'
 
 function _now() {
@@ -99,16 +98,6 @@ export function myDebounce(fn, wait, options) {
   }
   debounced.cancel = cancel;
   return debounced;
-}
-
-export function watchDebounced(source, cb, options) {
-  const watch = import('vue').watch;
-  const { leading, trailing, wait, maxWait, ...watchOptions } = options;
-  watch(
-    source,
-    myDebounce(cb, options.wait, { leading, trailing, wait, maxWait }),
-    watchOptions
-  );
 }
 
 // const useLodash = false
