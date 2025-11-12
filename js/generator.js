@@ -33,7 +33,7 @@ function run(gen) {
       // 错误处理
       try {
         // 这里使用Generator.prototype.throw()抛出错误而不用reject
-        // 是因为异常场景使用reject抛出异常无法被外部try...catch捕获，而throw会在生成器主体当前暂停的位置插入一个throw exception，该错误可以被捕获
+        // 是因为异常场景使用reject抛出异常那么generator会停止执行，而throw会在生成器主体当前暂停的位置插入一个throw exception，该错误可以被捕获，还可以继续往下执行
         res = g[isError ? 'throw' : 'next'](value);
       } catch (err) {
         return reject(err);
