@@ -1,24 +1,30 @@
 /**
  * @description 实现数组的reduce方法
  */
-Array.prototype._reduce = function(fn, initialValue) {
-    const list = initialValue !== undefined ? [initialValue].concat(this) : this
-    let res
-    let firstIndex = -1
-    for(let i = 0; i < list.length - 1; i++) {
-        if(this.hasOwnProperty(i)) {
-            if(firstIndex === -1) {
-                firstIndex = i
-                res = list[i]
-            }
-            res = fn.call(list, res, list[i + 1], i, list)
-        }
+Array.prototype._reduce = function (fn, initialValue) {
+  if (initialValue === undefined && this.length === 0)
+    throw new TypeError('Reduce of empty array with no initial value');
+  if (initialValue === undefined && this.length === 1) return this[0];
+  if (initialValue === undefined) {
+    initialValue = this[0];
+  }
+  let temp = initialValue;
+  for (let i = initialValue === undefined ? 1 : 0; i < this.length; i++) {
+    if (i in this) {
+      temp = fn(temp, this[i], i, this);
     }
-    return res
-}
+  }
+  return temp;
+};
 
-const res = [1,2,3]._reduce((pre, cur, index, context) => {
-    // console.log(pre, cur, index, context);
-    return pre + cur
-}, 4)
-console.log(res);
+const arrOnlyOne = [5];
+const arr = [1, , , , 2, 3, 4, 5];
+const callback = (pre, cur, index, context) => {
+  //   console.log(pre, cur, index, context);
+  return pre + cur;
+};
+console.log(arr.reduce(callback, 0));
+console.log(arr._reduce(callback, 0));
+console.log('只有一条数据且没有初始值的情况');
+console.log(arrOnlyOne.reduce(callback, 10));
+console.log(arrOnlyOne._reduce(callback, 10));
