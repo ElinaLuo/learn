@@ -1,5 +1,6 @@
 /**
  * @description 实现数组的reduce方法
+ * reduce会跳过稀疏数组中缺失的元素
  */
 Array.prototype._reduce = function (fn, initialValue) {
   if (initialValue === undefined && this.length === 0)
@@ -10,6 +11,7 @@ Array.prototype._reduce = function (fn, initialValue) {
   }
   let temp = initialValue;
   for (let i = initialValue === undefined ? 1 : 0; i < this.length; i++) {
+    // reduce会跳过稀疏数组中缺失的元素
     if (i in this) {
       temp = fn(temp, this[i], i, this);
     }

@@ -1,6 +1,7 @@
 /**
  * @description 实现数组的flat
  * @param {Number} depth 深度
+ * flat会删除稀疏数组中的空槽
  */
 Array.prototype._flat = function (depth = 1) {
   if (depth === Infinity) {
