@@ -25,8 +25,9 @@ Array.prototype._flatMap = function (cb, thisArg) {
   }, []);
 };
 
-const arr = [1, 2, , , , , [3, 4], [5, [6, [7, 8, [9]]]]];
+// const arr = [1, 2, , , , , [3, 4], [5, [6, [7, 8, [9]]]]];
+const arr = [1, 2, ['a', 'b']];
 console.log(arr._flat(1));
-console.log(arr._flatMap((num) => (num === 2 ? [2, 2] : 1)));
+console.log(arr._flatMap((num) => num + 1));
 // console.log(arr._flat(3));
 console.log('全部拍平', arr._flat(Infinity));

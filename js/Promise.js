@@ -16,30 +16,27 @@ export class MyPromise {
   }
 
   _resolve(value) {
-    setTimeout(() => {
-      if (this.status !== PENDING) return;
-      this.status = FULFILLED;
-      this.value = value;
-      while (this.onFulfilledStack.length > 0) {
-        const cb = this.onFulfilledStack.shift();
-        cb(this.value);
-      }
-    });
+    if (this.status !== PENDING) return;
+    this.status = FULFILLED;
+    this.value = value;
+    while (this.onFulfilledStack.length > 0) {
+      const cb = this.onFulfilledStack.shift();
+      cb(this.value);
+    }
   }
 
   _reject(reason) {
-    setTimeout(() => {
-      if (this.status !== PENDING) return;
-      this.status = REJECTED;
-      this.value = reason;
-      while (this.onRejectedStack.length > 0) {
-        const cb = this.onRejectedStack.shift();
-        cb(this.value);
-      }
-    });
+    if (this.status !== PENDING) return;
+    this.status = REJECTED;
+    this.value = reason;
+    while (this.onRejectedStack.length > 0) {
+      const cb = this.onRejectedStack.shift();
+      cb(this.value);
+    }
   }
 
   then(onFulfilled, onRejected) {
+    // console.log('then方法', onFulfilled, onRejected);
     onFulfilled =
       typeof onFulfilled === 'function' ? onFulfilled : (val) => val;
     onRejected =
@@ -50,29 +47,35 @@ export class MyPromise {
           };
     return new MyPromise((resolve, reject) => {
       const onFulfilledFn = (val) => {
-        try {
-          const res = onFulfilled(val);
-          if (res instanceof MyPromise) {
-            res.then(resolve, reject);
-          } else {
-            resolve(res);
+        // 加入到微任务队列中
+        queueMicrotask(() => {
+          try {
+            const res = onFulfilled(val);
+            if (res instanceof MyPromise) {
+              res.then(resolve, reject);
+            } else {
+              resolve(res);
+            }
+          } catch (error) {
+            console.log('onFulfilledFn error', error);
+            reject(error);
           }
-        } catch (error) {
-          console.log('onFulfilledFn error', error);
-          reject(error);
-        }
+        });
       };
       const onRejectedFn = (val) => {
-        try {
-          const res = onRejected(val);
-          if (res instanceof MyPromise) {
-            res.then(resolve, reject);
-          } else {
-            reject(res);
+        // 加入到微任务队列中
+        queueMicrotask(() => {
+          try {
+            const res = onRejected(val);
+            if (res instanceof MyPromise) {
+              res.then(resolve, reject);
+            } else {
+              reject(res);
+            }
+          } catch (error) {
+            reject(error);
           }
-        } catch (error) {
-          reject(error);
-        }
+        });
       };
       switch (this.status) {
         case PENDING:
@@ -192,98 +195,12 @@ export class MyPromise {
   }
 }
 
-MyPromise.prototype.resolvePromise = function (promise2, x, resolve, reject) {
-  let self = this;
-  let called = false; // called 防止多次调用
-
-  if (promise2 === x) {
-    return reject(new TypeError('循环引用'));
-  }
-
-  if (
-    x !== null &&
-    (Object.prototype.toString.call(x) === '[object Object]' ||
-      Object.prototype.toString.call(x) === '[object Function]')
-  ) {
-    // x是对象或者函数
-    try {
-      let then = x.then;
-
-      if (typeof then === 'function') {
-        then.call(
-          x,
-          (y) => {
-            // 别人的Promise的then方法可能设置了getter等，使用called防止多次调用then方法
-            if (called) return;
-            called = true;
-            // 成功值y有可能还是promise或者是具有then方法等，再次resolvePromise，直到成功值为基本类型或者非thenable
-            self.resolvePromise(promise2, y, resolve, reject);
-          },
-          (reason) => {
-            if (called) return;
-            called = true;
-            reject(reason);
-          }
-        );
-      } else {
-        if (called) return;
-        called = true;
-        resolve(x);
-      }
-    } catch (reason) {
-      if (called) return;
-      called = true;
-      reject(reason);
-    }
-  } else {
-    // x是普通值，直接resolve
-    resolve(x);
-  }
-};
-
-const p = new MyPromise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(111);
-  }, 1000);
-  // throw new Error('错误了');
+setTimeout(() => {
+  console.log(5);
 });
-
-const status = 'success';
-// const status = 'error';
-
-MyPromise.try(() => {
-  // 同步错误
-  if (status === 'error') {
-    throw new Error('错误了');
-  }
-  return p;
-})
-  .then((val) => {
-    console.log('成功：', val);
-  })
-  .catch((error) => {
-    console.error('外部try捕获了异常：', error.message);
-  });
-
-// p.then(
-//   (res) => {
-//     console.log(`1111res: ${res}`);
-//     return 'success';
-//   },
-//   (err) => {
-//     console.log(`1111error: ${err}`);
-//     return 'error';
-//   }
-// )
-//   .finally(() => {
-//     console.log('finally');
-//     throw new Error('finally error');
-//   })
-//   .then(
-//     (res) => {
-//       console.log(`2222res: ${res}`);
-//     },
-//     (err) => {
-//       console.log(`2222error: ${err}`);
-//     }
-//   );
+new MyPromise((resolve) => {
+  resolve(4);
+  MyPromise.resolve().then(() => console.log(3));
+  console.log(1);
+}).then((t) => console.log(t));
+console.log(2);
