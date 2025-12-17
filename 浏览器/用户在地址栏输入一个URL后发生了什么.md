@@ -1,0 +1,12 @@
+- 浏览器进程（Browser Process）的界面线程处理用户的输入
+- 当用户按下Enter键时，网络线程处理URL的请求，包括DNS查找、建立TLS连接
+- 网络线程若收到HTTP 301等服务器重定向标头，此时网络线程会与界面线程通信，告知服务器正在请求重定向，然后，系统会发起另一个网站请求
+- service worker?
+- 开始接收响应正文，如果是html文件，则将数据传递给渲染进程，如果是zip文件或其他文件，则将数据传递给文件下载管理器
+- 主线程解析html并构建DOM树，“预加载扫描器”同时并发运行，如果 HTML 文档中存在 <img> 或 <link> 等内容，预加载扫描器会向浏览器进程中的网络线程发送请求
+- DOM解析过程中，javascript可能会阻止解析，可以为其添加module、async、defer来减少阻塞
+- 解析CSS，构建CSSOM树
+- 结合DOM和CSSOM生成渲染树(Render Tree)
+- 布局(Layout)，确定每个元素的尺寸和位置
+- 绘制(Painting)，填充像素
+- 合成(Compositing) → 图层合并
