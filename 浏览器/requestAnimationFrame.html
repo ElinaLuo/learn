@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>requestAnimationFrame</title>
+  <style>
+    h1 {
+      font-size: 15px;
+    }
+
+    .box-container {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 20px;
+      background-color: antiquewhite;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: aquamarine;
+    }
+
+    .enter-from {
+      opacity: 0;
+    }
+
+    .enter-to {
+      opacity: 1;
+    }
+
+    .enter-active,
+    .leave-active {
+      transition: all 1s;
+    }
+
+    .leave-from {
+      opacity: 1;
+    }
+
+    .leave-to {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    rAF触发时机：浏览器下一帧渲染前，执行rAF回调，而浏览器什么时候渲染取决于主线程和屏幕刷新频率
+    <ul>
+      <li>若主线程中js执行时间太长，rAF只能一直等待，js执行结束后才会执行rAF，然后浏览器重绘，最终出现掉帧现象</li>
+      <li>依赖屏幕刷新频率，一般显示器刷新频率是60Hz，也就是16.7ms刷新一次，如果用户的显示器是 144Hz，rAF 的触发频率大约是 7ms 一次</li>
+    </ul>
+    使用场景：动画
+  </div>
+  <h1>下面举例Vue transition内部实现原理</h1>
+  <div class="box-container">
+    <div class="box box2">模拟Leave动效</div>
+  </div>
+  <div class="box-container">
+    <div class="box box1">模拟Enter动效</div>
+  </div>
+  <script type="module">
+    // 两层嵌套rAF，保证from和acitve渲染并被添加到了box上
+    function nextFrame(cb) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(cb)
+      })
+    }
+    const box2 = document.querySelector('.box2');
+    box2.classList.add('leave-from')
+    box2.classList.add('leave-active')
+    nextFrame(() => {
+      box2.classList.remove('leave-from')
+      box2.classList.add('leave-to')
+      box2.addEventListener('transitionend', () => {
+        box2.classList.remove('leave-to')
+        box2.classList.remove('leave-active')
+        box2.style.display = 'none'
+      })
+    })
+    const box1 = document.querySelector('.box1');
+    // vue transition在onBeforeEnter(该hook在元素被插入到 DOM 之前调用)阶段就把from class添加了，所以这里直接执行
+    box1.classList.add('enter-from')
+    box1.classList.add('enter-active')
+    nextFrame(() => {
+      box1.classList.remove('enter-from')
+      box1.classList.add('enter-to')
+      box1.addEventListener('transitionend', () => {
+        box1.classList.remove('enter-to')
+        box1.classList.remove('enter-active')
+      })
+    })
+  </script>
+
+</body>
+
+</html>
