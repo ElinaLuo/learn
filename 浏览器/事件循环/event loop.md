@@ -31,8 +31,10 @@
 │  ├─ 执行渲染管道：
 │  │  1. 样式计算（Recalc Style）
 │  │  2. 布局（Layout）
-│  │  3. 绘制（Paint）
-│  │  4. 合成（Composite）
+│  │  3. 执行 IntersectionObserver 回调（为什么在layout后paint之前？因为布局完就确定是否相交，paint前是因为有可能回调会修改DOM导致样式变化，这时浏览器会重新运行部分布局流程）
+│  │  4. 执行 ResizeObserver 回调
+│  │  5. 绘制（Paint）
+│  │  6. 合成（Composite）
 │  └─ 否：跳过渲染
     ↓
 [空闲阶段]
