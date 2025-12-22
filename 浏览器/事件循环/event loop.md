@@ -55,10 +55,21 @@
   - 处理系统级 I/O 错误：这是最典型的用途。例如，如果 TCP socket 在尝试连接时收到了 ECONNREFUSED 错误，某些 Unix/Linux 系统会选择等待而不是立即报错。这个错误报告的回调就会被放入 pending callbacks 队列中执行。
   - 处理上一轮遗留的系统操作：并非所有的 I/O 回调都在 poll 阶段立即执行，某些由底层系统（libuv）调度的操作可能会推迟到此阶段处理。
 - idle, prepare：仅在内部使用
-- poll轮询(核心)：检索新的 I/O 事件；执行 I/O 相关的回调（几乎所有回调，除了关闭回调、由计时器调度的回调和 setImmediate() 之外）；在适当的情况下，Node 会在此处阻塞，轮询设置了最长时间限制
+- poll轮询(核心)：检索新的 I/O 事件；执行 I/O 相关的回调（几乎所有回调，除了关闭回调、由计时器调度的回调和 setImmediate() 之外），例如网络 I/O、文件 I/O；在适当的情况下，Node 会在此处阻塞，轮询设置了最长时间限制
 - check检查：setImmediate() 回调在此处被调用，当 Poll 阶段空闲时，如果发现有 setImmediate 在排队，就会直接进入这个阶段
 - close callbacks：一些关闭回调，例如 socket.on('close', ...)。
 
+## poll 阶段的两个核心职责
+poll 阶段有两个主要逻辑：
+
+A. 如果 poll 队列不为空：
+Event Loop 会同步地执行队列中的回调，直到队列清空，或者达到系统的硬性上限（防止该阶段无限执行导致后面阶段“饿死”）。
+
+B. 如果 poll 队列为空：
+这是 poll 阶段最聪明的地方，它会面临三个分支选择：
+检查 setImmediate：如果脚本已调用 setImmediate()，Event Loop 会立即结束 poll 阶段，进入 check 阶段执行那些脚本。
+检查定时器（Timers）：如果此时有定时器（setTimeout）已经到期，Event Loop 也会立即返回，按顺序绕回 timers 阶段执行回调。
+阻塞等待：如果既没有 setImmediate，也没有到期的定时器，Event Loop 会在 poll 阶段停留（Block），等待新的 I/O 回调被加入队列。
 
 ## setImmediate vs setTimeout
 如果在非I/O周期内执行，2个计时器的执行顺序是不确定的
