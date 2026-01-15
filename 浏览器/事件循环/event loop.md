@@ -50,12 +50,12 @@
 6个阶段：
 
 - timers：此阶段执行由 setTimeout() 和 setInterval() 调度的回调
-- pending callbacks：负责执行被延迟到下一个循环迭代的 I/O 回调。
+- pending callbacks：专门处理特殊的系统级错误回调
   核心作用包括：
   - 处理系统级 I/O 错误：这是最典型的用途。例如，如果 TCP socket 在尝试连接时收到了 ECONNREFUSED 错误，某些 Unix/Linux 系统会选择等待而不是立即报错。这个错误报告的回调就会被放入 pending callbacks 队列中执行。
   - 处理上一轮遗留的系统操作：并非所有的 I/O 回调都在 poll 阶段立即执行，某些由底层系统（libuv）调度的操作可能会推迟到此阶段处理。
 - idle, prepare：仅在内部使用
-- poll轮询(核心)：检索新的 I/O 事件；执行 I/O 相关的回调（几乎所有回调，除了关闭回调、由计时器调度的回调和 setImmediate() 之外），例如网络 I/O、文件 I/O；在适当的情况下，Node 会在此处阻塞，轮询设置了最长时间限制
+- poll轮询(核心)：检索新的 I/O 事件；执行 I/O 相关的回调（几乎所有回调，除了关闭回调、由计时器调度的回调和 setImmediate() 之外），例如网络 I/O、文件 I/O；在适当的情况下，Node 会在此处阻塞，轮询设置了最长时间限制；另外执行I/O回调也有限制：数量限制和时间限制
 - check检查：setImmediate() 回调在此处被调用，当 Poll 阶段空闲时，如果发现有 setImmediate 在排队，就会直接进入这个阶段
 - close callbacks：一些关闭回调，例如 socket.on('close', ...)。
 
