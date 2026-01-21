@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    async function async1() {
+      console.log("async1 start");
+      await async2();
+      console.log("async1 end");
+    }
+    async function async2() {
+      console.log("async2");
+    }
+    console.log("script start");
+    setTimeout(() => {
+      console.log("setTimeout");
+    }, 0);
+    let timestamp0;
+    requestAnimationFrame((timestamp1) => {
+      console.log("requestAnimationFrame 1", timestamp1, timestamp1 - timestamp0); // raf既不属于宏任务也不属于微任务，第一次调用会在所有微任务结束后立即执行，如果后续还有raf回调，才会真正同步到刷新率
+      // requestAnimationFrame((timestamp2) => {
+      //   console.log("requestAnimationFrame 2", timestamp2, timestamp2 - timestamp1); // raf既不属于宏任务也不属于微任务，第一次调用会在所有微任务结束后立即执行，如果后续还有raf回调，才会真正同步到刷新率
+      //   requestAnimationFrame((timestamp3) => {
+      //     console.log("requestAnimationFrame 3", timestamp3, timestamp3 - timestamp2); // raf既不属于宏任务也不属于微任务，第一次调用会在所有微任务结束后立即执行，如果后续还有raf回调，才会真正同步到刷新率
+      //   });
+      // });
+    });
+    async1();
+    new Promise(resolve => {
+      console.log("promise1");
+      resolve();
+    }).then(() => {
+      console.log("promise2");
+    });
+    console.log("script end", timestamp0 = performance.now());
+
+    // 输出结果
+    // script start
+    // async1 start
+    // async2
+    // promise1
+    // script end
+    // async1 end
+    // promise2
+    // requestAnimationFrame 和 setTimeout 的执行顺序不确定，结果取决于当前处于 16.6ms 帧周期的哪个位置
+    // 如果命中渲染帧，则先执行requestAnimationFrame，如果错过渲染帧，则先执行setTimeout
+    // requestAnimationFrame 1
+    // setTimeout
+  </script>
+</body>
+
+</html>
