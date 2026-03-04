@@ -14,8 +14,8 @@ effect(() => {
 });
 
 const interval = setInterval(() => {
-  stateProxy.age = stateProxy.age + 1;
-  if (stateProxy.age === 26) {
+  stateProxy.age++;
+  if (stateProxy.age === 23) {
     clearInterval(interval);
   }
 }, 1000);

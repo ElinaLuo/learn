@@ -30,8 +30,12 @@ class BaseHandlers {
   set(target, key, value, receiver) {
     // console.log(`set key: ${key}, value: ${value}`)
     const oldValue = target[key];
-    // 触发依赖
+    if (isRef(oldValue) && !isRef(value)) {
+      oldValue.value = value;
+      return true;
+    }
     const result = Reflect.set(target, key, value, receiver);
+    // 触发依赖
     if (oldValue !== value) {
       trigger(target, TriggerOpTypes.SET, key);
     }
