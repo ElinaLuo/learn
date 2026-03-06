@@ -1,6 +1,6 @@
 import { reactive } from './reactive.js';
 import { ref, toRef, toRefs, proxyRefs } from './ref.js';
-import { computed } from './compute.js';
+import { computed } from './computed.js';
 import { effect } from './effect.js';
 
 const stateProxy = reactive({
