@@ -1,5 +1,9 @@
 # 1.响应式原理相关
 
+## Vue2 和 Vue3响应式原理
+具体见 vue2/3响应式原理.md
+
+
 ## 1.1 Proxy替代defineProperty原因，解决什么问题，各自的局限性
 defineProperty局限性：
 1.无法监听对象的新增和删除，需要通过Vue.set和Vue.delete手动处理
