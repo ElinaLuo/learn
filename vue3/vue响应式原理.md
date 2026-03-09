@@ -87,7 +87,7 @@ const newCount = computed(() => count.value * 2)
 # vue2 和 vue3 watch 实现原理
 
 vue2 watch 实现原理：
-源码位置：vue/src/instance/state.ts initWatch
+源码位置：src/instance/state.ts initWatch
 基于响应式(Object.defineProperty) + User Watcher
 类型：{ [key: string]: string | Function | Object | Array }
 1.初始化initWatch，调用createWatcher规范化参数，最终调用vm.$watch
@@ -97,4 +97,8 @@ vue2 watch 实现原理：
 初始化在哪里立即执行了一次？
 
 vue3 watch/watchEffect 实现原理：
+源码位置：packages/runtime-core/src/apiWatch.ts watch/watchEffect
 
+watchEffect定义：立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行
+
+reactive对象整个被替换，则触发哪个拦截器？
