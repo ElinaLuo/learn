@@ -1,6 +1,6 @@
 # 1.响应式原理相关
 
-## Vue2 和 Vue3响应式原理
+## Vue2 和 Vue3 响应式原理(包含computed/watch)
 具体见 vue2/3响应式原理.md
 
 
@@ -31,22 +31,6 @@ defineProperty方法
 Proxy如何解决：
 1.数组索引修改和数组length修改，都会触发set方法
 
-## 1.3 讲清楚Vue3响应式链路，手写简易响应式系统
-![alt text](Gemini_Generated_Image_8pvyr48pvyr48pvy.png)
-代码路径：Learn/my-simple-vue
-
-## 1.4 vue2 vue3 computed实现原理
-
-vue2 computed实现原理：
-
-vue3 computed实现原理：
-源码位置：my-simple-vue/computed.js
-const count = ref(10)
-const newCount = computed(() => count.value * 2)
-1.创建一个ComputedRefImpl实例，并创建内部effect，传入fn，并设置scheduler，这个内部effect相当于一个桥梁，当count属性变化时，count的dep会触发内部effect的scheduler执行，scheduler一方面设置dirty为true，另一方面会trigger ComputedRefImpl实例dep中effect重新执行
-2.调用get方法时，收集当前effect(activeEffect)放在dep中，若dirty为true，执行effect.run()获取值并缓存在_value中，若dirty为false，则直接返回_value
-
-## 1.5 watch/watchEffect 实现原理
 
 # 2.生命周期相关
 

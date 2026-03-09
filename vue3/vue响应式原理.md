@@ -38,13 +38,14 @@ Vue 2 响应式的致命痛点（也是 Vue 3 诞生的原因之一）：
 性能损耗大：如果 data 是一个层级极深的庞大对象，Vue 2 在初始化时必须一次性递归遍历到底，把所有层级的属性都变成响应式，这会导致较慢的组件初始化速度和较高的内存占用。
 
 # Vue 3 响应式原理：ES6 Proxy
+![alt text](Gemini_Generated_Image_8pvyr48pvyr48pvy.png)
+代码路径：Learn/my-simple-vue
+
 Vue 3 抛弃了 Object.defineProperty，全面拥抱了 ES6 的 Proxy（代理）和 Reflect（反射）。
 
 Proxy 的降维打击：Proxy 不再是针对对象的某个具体属性进行劫持，而是直接对整个对象套上一层代理“外壳”。不论你是读取、设置、新增属性、删除属性，还是操作数组，统统都要经过这层外壳，从而被完美拦截。
 
 依赖收集的重构：Vue 3 使用 track (追踪) 和 trigger (触发) 来替代原来的 Dep 逻辑，并在底层使用 WeakMap -> Map -> Set 的数据结构来高效管理所有的响应式依赖（副作用函数 effect）。
-
-具体代码查看：Learn/my-simple-vue
 
 简化版原理代码片段：
 ```javascript
@@ -63,3 +64,37 @@ function reactive(target) {
   });
 }
 ```
+
+# vue2 和 vue3 computed 实现原理
+vue2 computed 实现原理：
+源码位置：vue/src/instance/state.ts initComputed
+
+基于响应式(Object.defineProperty) + 惰性求值(dirty标记)的Computed Watcher
+1.初始化initComputed，创建一个Computed Watcher
+2.调用defineComputed，使用Object.defineProperty创建get访问器描述符，get：当调用该值时，会访问到响应式对象，则对象的dep会收集该Computed Watcher，当dirty为true时，重新计算value值，并标记dirty为false，如果dirty为false，则直接返回缓存值，最后还会调用depend让响应式对象的dep收集Render Watcher（如果有）
+3.当依赖的响应式对象变化时，dep.notify通知所有Watcher调用update，Computed Watcher更新只会将dirty标记为true，当Render Watcher执行更新时，此时dirty为true，则重新计算value值
+
+vue3 computed 实现原理：
+具体代码查看：Learn/my-simple-vue/computed.js
+
+基于响应式(Proxy + reflect) + 惰性求值(dirty) + effect
+const count = ref(10)
+const newCount = computed(() => count.value * 2)
+1.创建一个ComputedRefImpl实例，创建内部effect，传入fn，并设置scheduler，这个内部effect相当于一个桥梁，当count属性变化时，count的dep会触发内部effect的scheduler执行，scheduler一方面设置dirty为true，另一方面会trigger ComputedRefImpl实例dep中effect重新执行
+2.调用get方法时，收集当前effect(activeEffect)放在dep中，若dirty为true，执行effect.run()获取值并缓存在_value中，若dirty为false，则直接返回_value
+
+
+# vue2 和 vue3 watch 实现原理
+
+vue2 watch 实现原理：
+源码位置：vue/src/instance/state.ts initWatch
+基于响应式(Object.defineProperty) + User Watcher
+类型：{ [key: string]: string | Function | Object | Array }
+1.初始化initWatch，调用createWatcher规范化参数，最终调用vm.$watch
+2.依赖收集与更新：用户 Watcher 创建时会**立即执行一次** this.get()，以收集依赖。get() 方法将当前 Watcher 设为 Dep.target，然后执行 getter（即访问监听的数据），从而触发该数据属性的 getter，将当前 Watcher 添加到属性的 Dep 中。此后，当被监听的数据变化时，Dep 会通知所有订阅的 Watcher，包括这个用户 Watcher，用户 Watcher 执行时，它会重新求值（调用 this.get()），并与旧值比较，若值变化则触发回调
+3.deep实现原理：当deep为true时，会递归访问对象的所有子属性，强制触发每个属性的get方法，从而使当前Watcher被所有深层属性的Dep收集
+
+初始化在哪里立即执行了一次？
+
+vue3 watch/watchEffect 实现原理：
+
