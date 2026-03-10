@@ -5,7 +5,9 @@ import { effect } from './effect.js';
 import { watch, watchEffect } from './apiWatch.js';
 
 const stateProxy = reactive({
-  age: ref(18),
+  address: {
+    num: 18,
+  },
 });
 const newAge = computed(() => stateProxy.age + 10);
 const ageRef = ref(18);
@@ -15,24 +17,32 @@ const ageRef = ref(18);
 //   document.getElementById('app').innerText = newAge.value;
 // });
 
-watch(() => stateProxy.age, (newVal, oldVal) => {
-  console.log('watch执行了-stateProxy', newVal, oldVal);
-});
+watch(
+  () => stateProxy,
+  (newVal, oldVal) => {
+    console.log(
+      'watch执行了-stateProxy',
+      newVal === oldVal,
+      newVal.address.num,
+    );
+  },
+  { deep: true },
+);
 watch(ageRef, (newVal, oldVal) => {
   console.log('watch执行了-ageRef', newVal, oldVal);
 });
-watchEffect(() => {
-  console.log('watchEffect执行了-ageRef', ageRef.value);
-});
+// watchEffect(() => {
+//   console.log('watchEffect执行了-ageRef', ageRef.value);
+// });
 
-setTimeout(() => {
-  // stateProxy.age++;
-  ageRef.value = 20;
-}, 1000);
-
-// const interval = setInterval(() => {
-//   stateProxy.age++;
-//   if (stateProxy.age === 23) {
-//     clearInterval(interval);
-//   }
+// setTimeout(() => {
+//   // stateProxy.age++;
+//   ageRef.value = 20;
 // }, 1000);
+
+const interval = setInterval(() => {
+  stateProxy.address.num++;
+  if (stateProxy.address.num === 23) {
+    clearInterval(interval);
+  }
+}, 1000);

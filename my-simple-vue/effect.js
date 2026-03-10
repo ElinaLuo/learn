@@ -20,10 +20,6 @@ function postCleanupEffect(effect) {
     }
     effect.deps.length = effect._depsLength;
   }
-  console.log(
-    'effect依赖列表=',
-    effect.deps.map((item) => item.name),
-  );
 }
 
 export class ReactiveEffect {
@@ -73,8 +69,6 @@ export function trackEffect(effect, dep) {
       // 依赖没有变化，继续使用原来的位置
       effect._depsLength++;
     }
-  } else {
-    console.log('已经收集过了，不需要重复收集');
   }
 }
 

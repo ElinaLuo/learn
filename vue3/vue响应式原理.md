@@ -94,11 +94,25 @@ vue2 watch 实现原理：
 2.依赖收集与更新：用户 Watcher 创建时会**立即执行一次** this.get()，以收集依赖。get() 方法将当前 Watcher 设为 Dep.target，然后执行 getter（即访问监听的数据），从而触发该数据属性的 getter，将当前 Watcher 添加到属性的 Dep 中。此后，当被监听的数据变化时，Dep 会通知所有订阅的 Watcher，包括这个用户 Watcher，用户 Watcher 执行时，它会重新求值（调用 this.get()），并与旧值比较，若值变化则触发回调
 3.deep实现原理：当deep为true时，会递归访问对象的所有子属性，强制触发每个属性的get方法，从而使当前Watcher被所有深层属性的Dep收集
 
-初始化在哪里立即执行了一次？
 
 vue3 watch/watchEffect 实现原理：
-源码位置：packages/runtime-core/src/apiWatch.ts watch/watchEffect
+代码路径：Learn/my-simple-vue/apiWatch.js watch/watchEffect
+基于ReactiveEffect实现
+watch(source, callback, options)：侦听一个或多个响应式数据源，并在数据源变化时调用所给的回调函数。
+watchEffect(source, options)：立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行
+侦听器的源source，可以是一下几种：
+1.一个函数
+2.一个ref
+3.一个响应式对象（默认deep为true）
+4.以上类型组成的数组
+options支持一下选项：
+immediate(立即执行callback)、deep、flush、onTrack、onTrigger、once
 
-watchEffect定义：立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行
+
+flush，可选值：pre、post、sync，实现原理？
 
 reactive对象整个被替换，则触发哪个拦截器？
+
+
+为什么Vue2和Vue3 watch初始化时会立即执行一次？
+因为只有初始化执行了，才能进行依赖收集，依赖更新后才会触发watcher执行回调
