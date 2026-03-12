@@ -48,16 +48,7 @@ Proxy如何解决：
 
 当父组件销毁时，生命周期调用顺序：父beforeUnmount、子unmounted、子beforeUnmount、父unmounted
 
-# 3.编译优化
-
-## vue3编译优化原理（如何通过编译优化减少diff？）
-1.静态标记：标记出静态节点，diff时只对比动态节点
-2.更新类型标记(patch flag)：
-3.树结构打平
-
-## diff算法
-
-# 4.高级组件
+# 3.高级组件
 
 ## teleport原理，在SSR中有什么问题
 
@@ -65,16 +56,36 @@ Proxy如何解决：
 
 ## transition原理
 
-# 5.性能优化
+# 4.性能优化
 
 ## 5.1 实战：设计10万级数据的响应式优化方案（长列表优化）
 
+# 5.其它
 
+## reactive对象整个被替换，则触发哪个拦截器？
+不会触发effect执行，会丢失响应式
 
 ## composition api优势，为什么更利于ts类型推断
 
 ## 组件之间如何通信
 
-## $nexttick原理和事件循环的关系，为什么dom更新后需用nexttick获取元素尺寸
+## nexttick实现原理，使用场景是什么？和watch flush关系？
+nexttick实现原理：将回调放到微任务队列，等待组件渲染后执行该回调
+Vue 2 为了兼容性，内部会做各种降级处理（Promise -> MutationObserver -> setImmediate -> setTimeout）。Vue 3 放弃了对老旧浏览器的支持，直接硬编码使用 Promise。
+在一个微任务周期（Tick）内，Vue 的调度器会严格按以下顺序执行：
+1.执行 flush: 'pre' 的任务（准备工作）。
+2.执行渲染微任务（Render & Patch）（真正动 DOM）。
+3.执行 flush: 'post' 的任务（善后工作）。
+4.执行 nextTick 注册的回调（最后的确认）。
+注意： 在 Vue 3 源码中，nextTick 的回调其实也是被推入了 postFlushCbs 队列中，所以它和 flush: 'post' 的 watch 基本处于同一个执行阶段。
+
+使用场景：需要拿到更新后DOM
+举例：比如表单自动聚焦：通过 v-if 控制一个 input 显示，显示后立即调用 input.focus()。如果不加 nextTick，input 还没在 DOM 里，调用会失败
+
+为什么执行组件渲染微任务后，就可以操作dom呢？浏览器paint会立即渲染吗，还是等待屏幕刷新时机再渲染？
+DOM 操作是同步的，但绘制（Paint）是异步的
+当 Vue 的渲染微任务（Render & Patch）执行时，它底层调用的是浏览器的原生 API（如 appendChild、setAttribute、innerHTML 等）
+当这些 API 被调用时，浏览器内部的 DOM Tree（数据结构） 会立即在内存中被修改，因为 DOM 树已经更新了，所以你紧接着执行 document.querySelector 或者访问 el.offsetHeight 时，浏览器引擎会基于内存中最新的 DOM 结构计算结果并返回给你
+浏览器不会立即paint，会等待屏幕刷新时机再渲染，因为浏览器要攒着任务，等主线程空闲且屏幕刷新信号到来时，才统一进行像素绘制
 
 ## v-if v-for为什么不能共用
