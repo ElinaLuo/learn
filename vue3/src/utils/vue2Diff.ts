@@ -9,7 +9,7 @@
  * @param {Array}       oldNodeList - 旧的虚拟节点数组
  * @param {Array}       newNodeList - 新的虚拟节点数组
  */
-function updateChildren(parent, oldNodeList, newNodeList) {
+export function updateChildren(parent, oldNodeList, newNodeList) {
   // ── 初始化双指针 ──────────────────────────────────────────────────────────
   let oldStartIndex = 0;                        // 旧头指针
   let newStartIndex = 0;                        // 新头指针
@@ -121,107 +121,3 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   }
   return map;
 }
-
-const parentDiv = document.getElementById('app');
-function renderDom(nodeList) {
-  nodeList.forEach((node) => {
-    parentDiv.appendChild(node.elm);
-  });
-}
-
-class VNode {
-  constructor(key) {
-    this.key = key;
-    const newNode = document.createElement('span');
-    newNode.innerText = key;
-    this.elm = newNode;
-  }
-}
-
-// ─────────────────────────────────────────────
-// 测试工具函数
-// ─────────────────────────────────────────────
-
-/**
- * 读取容器中当前子节点的 key 列表（innerText）
- */
-function getOrder(container) {
-  return Array.from(container.children).map((el) => el.innerText);
-}
-
-/**
- * 清空容器，重建节点并执行 diff，最后断言结果顺序
- */
-function runTest(name, oldKeys, newKeys) {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-
-  const oldNodes = oldKeys.map((k) => new VNode(k));
-  const newNodes = newKeys.map((k) => new VNode(k));
-
-  // 先渲染旧节点
-  oldNodes.forEach((n) => container.appendChild(n.elm));
-
-  // 执行 diff
-  updateChildren(container, oldNodes, newNodes);
-
-  const result = getOrder(container);
-  const pass = JSON.stringify(result) === JSON.stringify(newKeys);
-
-  console.log(
-    `%c[${pass ? '通过' : '失败'}] ${name}`,
-    `color: ${pass ? 'green' : 'red'}`,
-  );
-  if (!pass) {
-    console.log('  期望:', newKeys);
-    console.log('  实际:', result);
-  }
-
-  // document.body.removeChild(container);
-}
-
-// ─────────────────────────────────────────────
-// 测试用例
-// ─────────────────────────────────────────────
-
-// 1. 完全相同，无需任何操作
-runTest('完全相同', ['a', 'b', 'c'], ['a', 'b', 'c']);
-
-// 2. 头头命中：新增节点在尾部
-runTest('尾部新增', ['a', 'b', 'c'], ['a', 'b', 'c', 'd', 'e']);
-
-// 3. 尾尾命中：新增节点在头部
-runTest('头部新增', ['c', 'd', 'e'], ['a', 'b', 'c', 'd', 'e']);
-
-// 4. 尾尾命中：删除尾部节点
-runTest('尾部删除', ['a', 'b', 'c', 'd'], ['a', 'b']);
-
-// 5. 头头命中：删除头部节点
-runTest('头部删除', ['a', 'b', 'c', 'd'], ['c', 'd']);
-
-// 6. 头尾互换（头尾比较命中）
-runTest('头尾互换', ['a', 'b', 'c', 'd'], ['d', 'b', 'c', 'a']);
-
-// 7. 尾头互换（尾头比较命中）
-runTest('尾头互换', ['d', 'b', 'c', 'a'], ['a', 'b', 'c', 'd']);
-
-// 8. 乱序：命中旧节点中间元素
-runTest('乱序-包含旧节点', ['a', 'b', 'c', 'd', 'e'], ['e', 'c', 'a']);
-
-// 9. 乱序 + 新增（旧中找不到的节点）
-runTest('乱序+新增', ['a', 'b', 'c'], ['d', 'b', 'a']);
-
-// 10. 全部替换为新节点（旧全删，新全增）
-runTest('全量替换', ['a', 'b', 'c'], ['x', 'y', 'z']);
-
-// 11. 旧为空（纯新增）
-runTest('旧为空', [], ['a', 'b', 'c']);
-
-// 12. 新为空（纯删除）
-runTest('新为空', ['a', 'b', 'c'], []);
-
-// 13. 原始用例：复杂乱序
-runTest('复杂乱序', ['d', 'b', 'a', 'c', 'f'], ['a', 'f', 'd', 'e', 'c', 'b']);
-
-// 14. 复杂乱序（反向）
-runTest('复杂乱序(删减)', ['a', 'f', 'd', 'e', 'c', 'b'], ['d', 'b', 'a', 'c']);
